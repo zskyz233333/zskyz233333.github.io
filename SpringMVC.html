@@ -441,7 +441,8 @@
 <p>这篇SpringMVC文章是基于 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1aE41167Tu">狂神说</a> 和 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/0tWgaYxavixiDCppvOfd-w">Java3y</a> 两位大佬所写的SpringMVC文章的笔记与总结，仅供个人学习和复习用。欲学习Spring知识推荐前往两位大佬的博客中学习。</p>
 </blockquote>
 <h2 id="SpringMVC"><a href="#SpringMVC" class="headerlink" title="SpringMVC"></a>SpringMVC</h2><ul>
-<li><p>MVC :模型 视图 控制器</p>
+<li>MVC :模型 视图 控制器</li>
+</ul>
 <h3 id="SpringMVC-特点"><a href="#SpringMVC-特点" class="headerlink" title="SpringMVC 特点"></a>SpringMVC 特点</h3><ul>
 <li>轻量级，简单易学。</li>
 <li>高效，基于请求响应的MVC框架。</li>
@@ -449,8 +450,6 @@
 <li>约定优于配置。</li>
 <li>功能强大：RESTful、数据验证、格式化、本地化、主题等。</li>
 <li>简洁灵活。</li>
-</ul>
-</li>
 </ul>
 <h3 id="DispatcherServlet"><a href="#DispatcherServlet" class="headerlink" title="DispatcherServlet"></a>DispatcherServlet</h3><p><code>SpringMVC的核心就是DispatcherServlet,DispatcherServlet实质也是一个HttpServlet。DispatcherServlet负责将请求分发，所有的请求都经过它来统一分发。</code></p>
 <h4 id="处理流程"><a href="#处理流程" class="headerlink" title="处理流程"></a>处理流程</h4><p>在整个 Spring MVC 框架中，DispatcherServlet 处于核心位置，它负责协调和组织不同组件完成请求处理并返回响应工作。DispatcherServlet 是 SpringMVC统一的入口，所有的请求都通过它。DispatcherServlet 是前端控制器，配置在web.xml文件中，Servlet依自已定义的具体规则拦截匹配的请求，分发到目标Controller来处理。 初始化 DispatcherServlet时，该框架在web应用程序WEB-INF目录中寻找一个名为[servlet-名称]-servlet.xml的文件，并在那里定义相关的Beans，重写在全局中定义的任何Beans。在看DispatcherServlet 类之前，我们先来看一下请求处理的大致流程：</p>
