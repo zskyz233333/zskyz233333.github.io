@@ -41,7 +41,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="Sky's Blog" type="application/rss+xml">
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+</head>
 
 
 
@@ -429,6 +429,9 @@
         <hr class="clearfix">
 
         
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
 
         
 
@@ -438,30 +441,30 @@
 <p>这篇文章是基于 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=Mzg2NTAzMTExNg==&mid=2247483895&idx=2&sn=dc368721556dd7c2f15f69344ed28f6d&scene=19#wechat_redirect">狂神说</a>和张卡卡mg的<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45609811/article/details/103215127">服务器安装 MySQL 8.0</a>的总结，仅供个人学习和复习用。</p>
 </blockquote>
 <h2 id="防火墙设置"><a href="#防火墙设置" class="headerlink" title="防火墙设置"></a>防火墙设置</h2><p>确保Linux的防火墙端口是开启的，如果是阿里云，需要保证阿里云的安全组策略是开放的！</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 查看firewall服务状态</span>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看firewall服务状态</span>
 systemctl status firewalld
 
-<span class="token comment" spellcheck="true"># 开启、重启、关闭、firewalld.service服务</span>
-<span class="token comment" spellcheck="true"># 开启</span>
+<span class="token comment"># 开启、重启、关闭、firewalld.service服务</span>
+<span class="token comment"># 开启</span>
 <span class="token function">service</span> firewalld start
-<span class="token comment" spellcheck="true"># 重启</span>
+<span class="token comment"># 重启</span>
 <span class="token function">service</span> firewalld restart
-<span class="token comment" spellcheck="true"># 关闭</span>
+<span class="token comment"># 关闭</span>
 <span class="token function">service</span> firewalld stop
 
-<span class="token comment" spellcheck="true"># 查看防火墙规则</span>
-firewall-cmd --list-all    <span class="token comment" spellcheck="true"># 查看全部信息</span>
-firewall-cmd --list-ports  <span class="token comment" spellcheck="true"># 只看端口信息</span>
+<span class="token comment"># 查看防火墙规则</span>
+firewall-cmd --list-all    <span class="token comment"># 查看全部信息</span>
+firewall-cmd --list-ports  <span class="token comment"># 只看端口信息</span>
 
-<span class="token comment" spellcheck="true"># 开启端口</span>
-开端口命令：firewall-cmd --zone<span class="token operator">=</span>public --add-port<span class="token operator">=</span>80/tcp --permanent
+<span class="token comment"># 开启端口</span>
+开端口命令：firewall-cmd --zone<span class="token operator">=</span>public --add-port<span class="token operator">=</span><span class="token number">80</span>/tcp --permanent
 重启防火墙：systemctl restart firewalld.service
 
 命令含义：
---zone <span class="token comment" spellcheck="true">#作用域</span>
---add-port<span class="token operator">=</span>80/tcp  <span class="token comment" spellcheck="true">#添加端口，格式为：端口/通讯协议</span>
---permanent   <span class="token comment" spellcheck="true">#永久生效，没有此参数重启后失效</span>
-</code></pre>
+--zone <span class="token comment">#作用域</span>
+--add-port<span class="token operator">=</span><span class="token number">80</span>/tcp  <span class="token comment">#添加端口，格式为：端口/通讯协议</span>
+--permanent   <span class="token comment">#永久生效，没有此参数重启后失效</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h2 id="jdk"><a href="#jdk" class="headerlink" title="jdk"></a>jdk</h2><p><code>事先确保服务器开启了以下端口</code></p>
 <ul>
 <li>nginx：80，443</li>
@@ -474,161 +477,129 @@ firewall-cmd --list-ports  <span class="token comment" spellcheck="true"># 只�
 <li><p>下载好安装包后运用xftp将文件传输入服务器。</p>
 </li>
 </ul>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 在服务器中事先创建一个个人目录，用于暂时存放下载的安装包。</span>
-<span class="token punctuation">[</span>root@zsky233333 /<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># cd home</span>
-<span class="token punctuation">[</span>root@zsky233333 home<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># mkdir zsky233333</span>
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 在服务器中事先创建一个个人目录，用于暂时存放下载的安装包。</span>
+<span class="token punctuation">[</span>root@zsky233333 /<span class="token punctuation">]</span><span class="token comment"># cd home</span>
+<span class="token punctuation">[</span>root@zsky233333 home<span class="token punctuation">]</span><span class="token comment"># mkdir zsky233333</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E4%BC%A0%E8%BE%93jdk.png"></p>
-<h3 id="2-安装java环境"><a href="#2-安装java环境" class="headerlink" title="2.安装java环境"></a>2.安装java环境</h3><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 检查当前是否存在java环境！ java -version</span>
-<span class="token comment" spellcheck="true"># 如果有的话需要卸载</span>
-<span class="token comment" spellcheck="true"># rpm -qa|grep jdk #检测JDK版本信息</span>
-<span class="token comment" spellcheck="true"># rpm -e --nodeps jdk #卸载命令</span>
+<h3 id="2-安装java环境"><a href="#2-安装java环境" class="headerlink" title="2.安装java环境"></a>2.安装java环境</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 检查当前是否存在java环境！ java -version</span>
+<span class="token comment"># 如果有的话需要卸载</span>
+<span class="token comment"># rpm -qa|grep jdk #检测JDK版本信息</span>
+<span class="token comment"># rpm -e --nodeps jdk #卸载命令</span>
 
-<span class="token comment" spellcheck="true"># 安装</span>
-<span class="token comment" spellcheck="true"># rpm -ivh 包</span>
-</code></pre>
+<span class="token comment"># 安装</span>
+<span class="token comment"># rpm -ivh 包</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%AE%89%E8%A3%85jdk.png"></p>
 <p>安装完毕执行 java -version 命令查看jdk。</p>
 <p><code>注意</code> 通过rpm安装的rpm包是不需要配置环境变量的，若通过其他命令安装需要自己手动配置环境变量。如下</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">vi</span> /etc/profile
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vi</span> /etc/profile
    
-<span class="token comment" spellcheck="true"># 在最后位置进入编辑模式，加入如下几行：</span>
+<span class="token comment"># 在最后位置进入编辑模式，加入如下几行：</span>
    
-JAVA_HOME<span class="token operator">=</span>/usr/java/jdk1.8.0_144
-CLASSPATH<span class="token operator">=</span>%JAVA_HOME%/lib:%JAVA_HOME%/jre/lib
-PATH<span class="token operator">=</span><span class="token variable">$PATH</span><span class="token keyword">:</span><span class="token variable">$JAVA_HOME</span>/bin:<span class="token variable">$JAVA_HOME</span>/jre/bin
-<span class="token function">export</span> PATH CLASSPATH JAVA_HOME
+<span class="token assign-left variable">JAVA_HOME</span><span class="token operator">=</span>/usr/java/jdk1.8.0_144
+<span class="token assign-left variable">CLASSPATH</span><span class="token operator">=</span>%JAVA_HOME%/lib:%JAVA_HOME%/jre/lib
+<span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token variable">$JAVA_HOME</span>/bin:<span class="token variable">$JAVA_HOME</span>/jre/bin
+<span class="token builtin class-name">export</span> <span class="token environment constant">PATH</span> CLASSPATH JAVA_HOME
    
-<span class="token comment" spellcheck="true"># 保存退出：wq</span>
+<span class="token comment"># 保存退出：wq</span>
 
-<span class="token comment" spellcheck="true"># 执行以下文件：</span>
-<span class="token function">source</span> /etc/profile
+<span class="token comment"># 执行以下文件：</span>
+<span class="token builtin class-name">source</span> /etc/profile
    
-<span class="token comment" spellcheck="true"># 不报错就行，这个会让你所选的文件立即生效;</span>
-<span class="token comment" spellcheck="true"># java -version可以查看到JAVA的安装及环境配置;</span>
-</code></pre>
+<span class="token comment"># 不报错就行，这个会让你所选的文件立即生效;</span>
+<span class="token comment"># java -version可以查看到JAVA的安装及环境配置;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h2><h3 id="下载Tomcat"><a href="#下载Tomcat" class="headerlink" title="下载Tomcat"></a>下载Tomcat</h3><p>Tomcat下载地址 <a target="_blank" rel="noopener" href="http://tomcat.apache.org/download-80.cgi">http://tomcat.apache.org/download-80.cgi</a></p>
 <p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/Tomcat%E4%B8%8B%E8%BD%BD.png"></p>
 <h3 id="安装Tomcat"><a href="#安装Tomcat" class="headerlink" title="安装Tomcat"></a>安装Tomcat</h3><p>将Tomcat移到 /usr/local/ 目录下</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">mv</span> apache-tomcat-9.0.43.tar.gz /usr/local/
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> apache-tomcat-9.0.43.tar.gz /usr/local/<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>解压</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># tar -zxvf apache-tomcat-9.0.43.tar.gz</span>
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># tar -zxvf apache-tomcat-9.0.43.tar.gz</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E8%A7%A3%E5%8E%8BTomcat.png"></p>
-<h3 id="启动Tomcat"><a href="#启动Tomcat" class="headerlink" title="启动Tomcat"></a>启动Tomcat</h3><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># cd /usr/local/apache-tomcat-9.0.43/bin</span>
-<span class="token comment" spellcheck="true"># ./startup.sh   开启Tomcat</span>
-<span class="token comment" spellcheck="true"># ./shutdown.sh  关闭Tomcat </span>
-</code></pre>
+<h3 id="启动Tomcat"><a href="#启动Tomcat" class="headerlink" title="启动Tomcat"></a>启动Tomcat</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># cd /usr/local/apache-tomcat-9.0.43/bin</span>
+<span class="token comment"># ./startup.sh   开启Tomcat</span>
+<span class="token comment"># ./shutdown.sh  关闭Tomcat </span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%BC%80%E5%90%AF%E5%85%B3%E9%97%ADTomcat.png"></p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># ps -ef|grep java 查看Tomcat是否开启</span>
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># ps -ef|grep java 查看Tomcat是否开启</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p><code>注意这里遇到一个坑Tomcat执行shutdown时报错：java.net.ConnectException: Connection refused (Connection refused)</code></p>
 <p>可参考这篇文章 <a target="_blank" rel="noopener" href="https://blog.csdn.net/ccy212220734/article/details/104468522">https://blog.csdn.net/ccy212220734/article/details/104468522</a></p>
 <h2 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h2><p>1.官网安装参考手册：<a target="_blank" rel="noopener" href="https://docs.docker.com/install/linux/docker-ce/centos/">https://docs.docker.com/install/linux/docker-ce/centos/</a></p>
 <p>2.确定你是CentOS7版本(因为8以上版本很多命令都改了)</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token punctuation">[</span>root@***** /<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># cat /etc/redhat-release</span>
-CentOS Linux release 7.8.2003 <span class="token punctuation">(</span>Core<span class="token punctuation">)</span>
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@***** /<span class="token punctuation">]</span><span class="token comment"># cat /etc/redhat-release</span>
+CentOS Linux release <span class="token number">7.8</span>.2003 <span class="token punctuation">(</span>Core<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>3.yum安装gcc相关（需要确保服务器可以联网）</p>
 <p>yum在线安装 -y 表示所有提示都为yes</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># yum -y install gcc</span>
-<span class="token comment" spellcheck="true"># yum -y install gcc-c++</span>
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># yum -y install gcc</span>
+<span class="token comment"># yum -y install gcc-c++</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>4.卸载旧版本</p>
-<pre class=" language-bash"><code class="language-bash">yum -y remove docker docker-common docker-selinux docker-engine
-<span class="token comment" spellcheck="true"># 官网版本 (上下两条命令任选一条)</span>
-yum remove docker \
-          docker-client \
-          docker-client-latest \
-          docker-common \
-          docker-latest \
-          docker-latest-logrotate \
-          docker-logrotate \
-          docker-engine
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">yum -y remove docker docker-common docker-selinux docker-engine
+<span class="token comment"># 官网版本 (上下两条命令任选一条)</span>
+yum remove docker <span class="token punctuation">\</span>
+          docker-client <span class="token punctuation">\</span>
+          docker-client-latest <span class="token punctuation">\</span>
+          docker-common <span class="token punctuation">\</span>
+          docker-latest <span class="token punctuation">\</span>
+          docker-latest-logrotate <span class="token punctuation">\</span>
+          docker-logrotate <span class="token punctuation">\</span>
+          docker-engine<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>5.安装需要的软件包</p>
-<pre class=" language-bash"><code class="language-bash">yum <span class="token function">install</span> -y yum-utils device-mapper-persistent-data lvm2
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">yum <span class="token function">install</span> -y yum-utils device-mapper-persistent-data lvm2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>6.设置stable镜像仓库</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># =推荐使用国内的</span>
-yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># =推荐使用国内的</span>
+yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>7.更新yum软件包索引</p>
-<pre class=" language-bash"><code class="language-bash">yum makecache fast
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">yum makecache fast<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>8.安装Docker CE</p>
-<pre class=" language-bash"><code class="language-bash">yum -y <span class="token function">install</span> docker-ce docker-ce-cli containerd.io
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">yum -y <span class="token function">install</span> docker-ce docker-ce-cli containerd.io<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>9.启动docker</p>
-<pre class=" language-bash"><code class="language-bash">systemctl start docker <span class="token comment" spellcheck="true">#没有报错代表启动成功 这条金句大部分情况下在linux中通用</span>
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">systemctl start docker <span class="token comment">#没有报错代表启动成功 这条金句大部分情况下在linux中通用</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>10.测试</p>
-<pre class=" language-bash"><code class="language-bash">docker version
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker version
 
 docker run hello-world
 
-docker images
-</code></pre>
-<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="删除服务器自带数据库"><a href="#删除服务器自带数据库" class="headerlink" title="删除服务器自带数据库"></a>删除服务器自带数据库</h3><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 查看一下</span>
-rpm -qa <span class="token operator">|</span> <span class="token function">grep</span> mariadb
-<span class="token comment" spellcheck="true"># 删掉</span>
-yum -y remove mari*    
-<span class="token function">rm</span> -rf /var/lib/mysql/*        
-<span class="token comment" spellcheck="true"># 查看残留mysql文件</span>
+docker images<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="删除服务器自带数据库"><a href="#删除服务器自带数据库" class="headerlink" title="删除服务器自带数据库"></a>删除服务器自带数据库</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看一下</span>
+<span class="token function">rpm</span> -qa <span class="token operator">|</span> <span class="token function">grep</span> mariadb
+<span class="token comment"># 删掉</span>
+yum -y remove mari*	
+<span class="token function">rm</span> -rf /var/lib/mysql/*		
+<span class="token comment"># 查看残留mysql文件</span>
 <span class="token function">find</span> / -name mysql
-<span class="token comment" spellcheck="true"># 删掉!</span>
-<span class="token function">find</span> / -name mysql<span class="token operator">|</span><span class="token function">xargs</span> <span class="token function">rm</span> -rf<span class="token punctuation">;</span>
-</code></pre>
+<span class="token comment"># 删掉!</span>
+<span class="token function">find</span> / -name mysql<span class="token operator">|</span><span class="token function">xargs</span> <span class="token function">rm</span> -rf<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="安装mysql-8版本"><a href="#安装mysql-8版本" class="headerlink" title="安装mysql(8版本)"></a>安装mysql(8版本)</h3><p>1.在根目录下执行下载Mysql源安装包</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">wget</span> https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">wget</span> https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>2.执行安装源命令</p>
-<pre class=" language-bash"><code class="language-bash">yum localinstall mysql80-community-release-el7-1.noarch.rpm
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">yum localinstall mysql80-community-release-el7-1.noarch.rpm<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>3.安装Mysql,安装之前可以先检查一下源是否安装成功</p>
-<pre class=" language-bash"><code class="language-bash">yum repolist enabled <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"mysql.*-community.*"</span>
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">yum repolist enabled <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"mysql.*-community.*"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/MySql%E6%BA%90.png"></p>
 <p>4.安装MySQL</p>
-<pre class=" language-bash"><code class="language-bash">yum <span class="token function">install</span> mysql-community-server
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">yum <span class="token function">install</span> mysql-community-server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/MySql%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F.png"></p>
 <h3 id="启动MySql"><a href="#启动MySql" class="headerlink" title="启动MySql"></a>启动MySql</h3><p>1.启动</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">service</span> mysqld start
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">service</span> mysqld start<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>2.查看MySQL的运行状态</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">service</span> mysqld status
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">service</span> mysqld status<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>3.设置开机自启动</p>
-<pre class=" language-bash"><code class="language-bash">systemctl <span class="token function">enable</span> mysqld
-systemctl daemon-reload
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">systemctl <span class="token builtin class-name">enable</span> mysqld
+systemctl daemon-reload<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%90%AF%E5%8A%A8MySql.png"></p>
 <h3 id="修改登录密码"><a href="#修改登录密码" class="headerlink" title="修改登录密码"></a>修改登录密码</h3><p>1.找到root默认密码</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">grep</span> <span class="token string">'temporary password'</span> /var/log/mysqld.log
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">grep</span> <span class="token string">'temporary password'</span> /var/log/mysqld.log<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>2.登录本地MySQL (密码为刚刚找到的默认密码)</p>
-<pre class=" language-bash"><code class="language-bash">mysql -uroot -p
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">mysql -uroot -p<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>3.修改密码,密码命名要大写字母,小写字母,特殊字符,数字</p>
-<pre class=" language-bash"><code class="language-bash">ALTER USER <span class="token string">'root'</span>@<span class="token string">'localhost'</span> IDENTIFIED BY <span class="token string">'新的密码'</span><span class="token punctuation">;</span>
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ALTER <span class="token environment constant">USER</span> <span class="token string">'root'</span>@<span class="token string">'localhost'</span> IDENTIFIED BY <span class="token string">'新的密码'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h3 id="添加远程登录用户"><a href="#添加远程登录用户" class="headerlink" title="添加远程登录用户"></a>添加远程登录用户</h3><p>1.输入use mysql,连接数据库</p>
-<pre class=" language-bash"><code class="language-bash">use mysql
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">use mysql<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>2.查看数据库当前 root 用户的相关信息</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token keyword">select</span> host, user from user<span class="token punctuation">;</span>
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token keyword">select</span> host, user from user<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>3.设置远程访问</p>
-<pre class=" language-bash"><code class="language-bash">update user <span class="token keyword">set</span> host<span class="token operator">=</span><span class="token string">'%'</span> where user <span class="token operator">=</span><span class="token string">'root'</span><span class="token punctuation">;</span>
-</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">update user <span class="token builtin class-name">set</span> <span class="token assign-left variable">host</span><span class="token operator">=</span><span class="token string">'%'</span> where user <span class="token operator">=</span><span class="token string">'root'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>重新查询root相关信息发现多一条数据</p>
 <p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/MySql%E6%9F%A5%E8%AF%A2%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF.png"></p>
 <p>4.刷新</p>
-<pre class=" language-bash"><code class="language-bash">flush privileges<span class="token punctuation">;</span>
-</code></pre>
-
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">flush privileges<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
                 
             </div>
             <hr/>
@@ -900,18 +871,17 @@ systemctl daemon-reload
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/ServerBuilding.html">
+                <a href="/MyBatisPlus.html">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="服务器环境搭建">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="MyBatisPlus">
                         
-                        <span class="card-title">服务器环境搭建</span>
+                        <span class="card-title">MyBatisPlus</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -921,22 +891,21 @@ systemctl daemon-reload
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-06
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-02-08
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/util/" class="post-category">
-                                    util
+                            <a href="/categories/Java/" class="post-category">
+                                    Java
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -948,8 +917,8 @@ systemctl daemon-reload
                         <span class="chip bg-color">hexo</span>
                     </a>
                     
-                    <a href="/tags/util/">
-                        <span class="chip bg-color">util</span>
+                    <a href="/tags/MyBatis/">
+                        <span class="chip bg-color">MyBatis</span>
                     </a>
                     
                 </div>
