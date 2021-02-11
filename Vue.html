@@ -458,12 +458,10 @@
 <h4 id="updated-更新后"><a href="#updated-更新后" class="headerlink" title="updated(更新后)"></a>updated(更新后)</h4><p>在由于数据更改导致的虚拟DOM重新渲染和打补丁时调用，调用时，组件DOM已经更新，所以可以执行依赖于DOM的操作，然后在大多数情况下，应该避免在此期间更改状态，因为这会导致更新无限循环，该钩子在服务器端渲染期间不被调用。</p>
 <h4 id="beforeDeestroy-销毁前"><a href="#beforeDeestroy-销毁前" class="headerlink" title="beforeDeestroy(销毁前)"></a>beforeDeestroy(销毁前)</h4><p>在实例销毁之前调用，实例任然完全可用，</p>
 <ul>
-<li><p>这一步还可以用this来获取实例</p>
-</li>
-<li><p>一般在这一步做一些重置的操作，比如清除掉组件中的定时器和监听的DOM事件\</p>
-<h4 id="destroyed-销毁后"><a href="#destroyed-销毁后" class="headerlink" title="destroyed(销毁后)"></a>destroyed(销毁后)</h4></li>
+<li>这一步还可以用this来获取实例</li>
+<li>一般在这一步做一些重置的操作，比如清除掉组件中的定时器和监听的DOM事件\</li>
 </ul>
-<p>在实例销毁之后调用，调用后，所有的事件监听器会被移出，所有的子实例也会被销毁，该钩子在服务器端渲染期间不被调用。</p>
+<h4 id="destroyed-销毁后"><a href="#destroyed-销毁后" class="headerlink" title="destroyed(销毁后)"></a>destroyed(销毁后)</h4><p>在实例销毁之后调用，调用后，所有的事件监听器会被移出，所有的子实例也会被销毁，该钩子在服务器端渲染期间不被调用。</p>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><code>在.html文件中通过如下方式引用</code></p>
 <pre class="line-numbers language-html" data-language="html"><code class="language-html"><span class="token comment">&lt;!-- 开发环境版本，包含了有帮助的命令行警告 --></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://cdn.jsdelivr.net/npm/vue/dist/vue.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
