@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://zskyz233333.github.io/AMS.html</loc>
+        <lastmod>2021-02-11T04:26:52.416Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://zskyz233333.github.io/MyBatis.html</loc>
         <lastmod>2021-02-11T04:07:03.120Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -75,14 +83,6 @@
     <url>
         <loc>https://zskyz233333.github.io/ServerBuilding.html</loc>
         <lastmod>2021-02-11T03:23:29.154Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://zskyz233333.github.io/AMS.html</loc>
-        <lastmod>2021-02-11T03:21:52.955Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
