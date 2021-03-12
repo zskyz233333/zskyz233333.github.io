@@ -477,13 +477,13 @@
 <p><img src="img/Redis/%E5%A4%8D%E5%88%B6redis.config.jpg"></p>
 <h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p>redis默认不是后台启动的，需要修改配置文件!</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@zsky233333 redisconfig<span class="token punctuation">]</span><span class="token comment"># vim redis.conf </span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><img src="img/Redis/%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E9%BB%98%E8%AE%A4%E5%BC%80%E5%90%AF.jpg"></p>
 <p><code>绑定 Redis 监听的网络接口</code>，如果服务器有多个 IP，可限定 Redis server 监听的 IP；通过 Redis 配置项 bind，可同时绑定多个 IP。</p>
 <p>bind 127.0.0.1 192.168.13.12</p>
 <p>程序运行尽量避免使用熟知端口，降低被初级扫描的风险。</p>
 <p>port 6666</p>
 <p>开启 Redis 密码认证，并设置高复杂度密码，找到注释#requirepass 换行输入：</p>
 <p>requirepass 你的密码</p>
-<p><img src="img/Redis/%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E9%BB%98%E8%AE%A4%E5%BC%80%E5%90%AF.jpg"></p>
 <h3 id="启动Redis服务"><a href="#启动Redis服务" class="headerlink" title="启动Redis服务"></a>启动Redis服务</h3><p>切换到 /usr/local/bin目录下</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@zsky233333 bin<span class="token punctuation">]</span><span class="token comment"># redis-server redisconfig/redis.conf </span>
 <span class="token punctuation">[</span>root@zsky233333 bin<span class="token punctuation">]</span><span class="token comment"># redis-cli -p 6379</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
