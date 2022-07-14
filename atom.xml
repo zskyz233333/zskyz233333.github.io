@@ -15,33 +15,8 @@
     <atom:link href="https://zskyz233333.github.io/atom.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Tue, 28 Jun 2022 15:27:23 GMT</pubDate>
+    <pubDate>Mon, 11 Jul 2022 15:57:53 GMT</pubDate>
     <generator>http://hexo.io/</generator>
-    
-    <item>
-      <title></title>
-      <link>https://zskyz233333.github.io/Http.html</link>
-      <guid>https://zskyz233333.github.io/Http.html</guid>
-      <pubDate>Tue, 28 Jun 2022 15:27:23 GMT</pubDate>
-      
-        
-        
-          
-          
-      <description>&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;</description>
-          
-        
-      
-      
-      
-      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>]]></content:encoded>
-      
-      
-      
-      
-      <comments>https://zskyz233333.github.io/Http.html#disqus_thread</comments>
-      
-    </item>
     
     <item>
       <title>RabbitMQ</title>
