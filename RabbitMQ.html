@@ -430,7 +430,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <blockquote>
-<p>这篇RabbitMQ文章是基于 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1dX4y1V73G?p=8&spm_id_from=pageDriver&vd_source=78c3e3b670f065713893d3b92a2f338d">狂神说</a> 和 <a target="_blank" rel="noopener" href="https://blog.csdn.net/shishishilove/article/details/122086399">Linux安装RabbitMQ详细教程</a> 两位大佬所写的RabbitMQ文章的笔记与总结，仅供个人学习和复习用。</p>
+<p>这篇RabbitMQ文章是基于 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1dX4y1V73G?p=8&spm_id_from=pageDriver&vd_source=78c3e3b670f065713893d3b92a2f338d">狂神说</a> 、<a target="_blank" rel="noopener" href="https://blog.csdn.net/shishishilove/article/details/122086399">Linux安装RabbitMQ详细教程</a> 和<a target="_blank" rel="noopener" href="https://blog.csdn.net/Rok728/article/details/123106168?spm=1001.2014.3001.5502">详细讲解，RabbitMQ防止数据丢失</a>所写的RabbitMQ文章的笔记与总结，仅供个人学习和复习用。</p>
 </blockquote>
 <h2 id="Linux环境安装"><a href="#Linux环境安装" class="headerlink" title="Linux环境安装"></a>Linux环境安装</h2><h3 id="前期环境准备"><a href="#前期环境准备" class="headerlink" title="前期环境准备"></a>前期环境准备</h3><p>由于RabbitMQ是使用Erlang开发的，所有不同版本的RabbitMQ需要安装对应的Erlang环境。可参考<a target="_blank" rel="noopener" href="https://www.rabbitmq.com/which-erlang.html%E3%80%82">https://www.rabbitmq.com/which-erlang.html。</a></p>
 <p><code>官方安装包下载地址</code></p>
@@ -1115,7 +1115,62 @@ spring:
     <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Queue</span><span class="token punctuation">(</span><span class="token string">"sms.directTTL.queue"</span><span class="token punctuation">,</span><span class="token boolean">true</span><span class="token punctuation">,</span><span class="token boolean">false</span><span class="token punctuation">,</span><span class="token boolean">false</span><span class="token punctuation">,</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><img src="img/RabbitMQ/deadqueue.jpg"></p>
+<h2 id="消息确认机制"><a href="#消息确认机制" class="headerlink" title="消息确认机制"></a>消息确认机制</h2><blockquote>
+<p>该部分内容转载于<a target="_blank" rel="noopener" href="https://blog.csdn.net/Rok728/article/details/123106168?spm=1001.2014.3001.5502">详细讲解，RabbitMQ防止数据丢失</a></p>
+</blockquote>
+<p>confirm模式工作流程：</p>
+<p><img src="img/RabbitMQ/confirm.jpg"></p>
+<p>通过上图可以观察到生产者发送消失到RabbitMQ时分别在交换机(Exchange)和队列(Queue)有confirm()、returnedMessage()回调函数进行通知。</p>
+<h3 id="confirm机制实现"><a href="#confirm机制实现" class="headerlink" title="confirm机制实现"></a>confirm机制实现</h3><p><code>application.yml</code>配置文件</p>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml">#配置rabbitmq服务
+spring:
+  rabbitmq:
+    username: admin
+    password: admin
+    virtual-host: /
+    host: 101.52.24.325
+    port: 5672
+    publisher-confirm-type: correlated # publisher-confirms：设置为true时。当消息投递到Exchange后，会回调confirm()方法进行通知生产者
+    publisher-returns: true # publisher-returns：设置为true时。当消息匹配到Queue并且失败时，会通过回调returnedMessage()方法返回消息
+    template:
+      mandatory: true # spring.rabbitmq.template.mandatory: 设置为true时。指定消息在没有被队列接收时会通过回调returnedMessage()方法退回。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="img/RabbitMQ/confirmyml.png"></p>
+<p>publisher-returns和mandatory如果都设置的话，优先级是以mandatory优先.</p>
+<p>生产者配置回调函数的实现</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//被PostConstruct修饰方法1会在构造函数之后，init（）方法之前执行</span>
+<span class="token annotation punctuation">@PostConstruct</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">regCallback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//确认消息送到交换机(Exchange)回调</span>
+    rabbitTemplate<span class="token punctuation">.</span><span class="token function">setConfirmCallback</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">RabbitTemplate<span class="token punctuation">.</span>ConfirmCallback</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">confirm</span><span class="token punctuation">(</span><span class="token class-name">CorrelationData</span> correlationData<span class="token punctuation">,</span> <span class="token keyword">boolean</span> ack<span class="token punctuation">,</span> <span class="token class-name">String</span> cause<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"\n确认消息送到交换机(Exchange)结果："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"相关数据："</span> <span class="token operator">+</span> correlationData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"是否成功："</span> <span class="token operator">+</span> ack<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"错误原因："</span> <span class="token operator">+</span> cause<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 
+<span class="token annotation punctuation">@PostConstruct</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">returnCallback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//确认消息送到队列(Queue)回调</span>
+    rabbitTemplate<span class="token punctuation">.</span><span class="token function">setReturnsCallback</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">RabbitTemplate<span class="token punctuation">.</span>ReturnsCallback</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">returnedMessage</span><span class="token punctuation">(</span><span class="token class-name">ReturnedMessage</span> returnedMessage<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"\n确认消息送到队列(Queue)结果："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"发生消息："</span> <span class="token operator">+</span> returnedMessage<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"回应码："</span> <span class="token operator">+</span> returnedMessage<span class="token punctuation">.</span><span class="token function">getReplyCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"回应信息："</span> <span class="token operator">+</span> returnedMessage<span class="token punctuation">.</span><span class="token function">getReplyText</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"交换机："</span> <span class="token operator">+</span> returnedMessage<span class="token punctuation">.</span><span class="token function">getExchange</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"路由键："</span> <span class="token operator">+</span> returnedMessage<span class="token punctuation">.</span><span class="token function">getRoutingKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
                 
             </div>
             <hr/>
