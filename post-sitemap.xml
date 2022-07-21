@@ -9,8 +9,16 @@
 
 
     <url>
+        <loc>https://zskyz233333.github.io/DesignPattern.html</loc>
+        <lastmod>2022-07-21T15:32:13.620Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://zskyz233333.github.io/RabbitMQ.html</loc>
-        <lastmod>2022-07-15T03:37:10.133Z</lastmod>
+        <lastmod>2022-07-19T11:14:19.711Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
