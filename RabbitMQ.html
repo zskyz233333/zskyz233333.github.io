@@ -750,18 +750,18 @@ docker logs -f myrabbit<span aria-hidden="true" class="line-numbers-rows"><span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>project</span><span class="token punctuation">></span></span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>配置文件 <code>application.yml</code></p>
-<pre class="line-numbers language-yml" data-language="yml"><code class="language-yml"># 服务端口
-server:
-  port: 8080
+<pre class="line-numbers language-yml" data-language="yml"><code class="language-yml"><span class="token comment"># 服务端口</span>
+<span class="token key atrule">server</span><span class="token punctuation">:</span>
+  <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">8080</span>
 
-#配置rabbitmq服务
-spring:
-  rabbitmq:
-    username: admin
-    password: admin
-    virtual-host: &#x2F;
-    host: 106.22.76.151
-    port: 5672
+<span class="token comment">#配置rabbitmq服务</span>
+<span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">rabbitmq</span><span class="token punctuation">:</span>
+    <span class="token key atrule">username</span><span class="token punctuation">:</span> admin
+    <span class="token key atrule">password</span><span class="token punctuation">:</span> admin
+    <span class="token key atrule">virtual-host</span><span class="token punctuation">:</span> /
+    <span class="token key atrule">host</span><span class="token punctuation">:</span> 106.22.76.151
+    <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">5672</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>配置类 <code>RabbitmqConfig</code></p>
 <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">package</span> <span class="token namespace">com<span class="token punctuation">.</span>zsky<span class="token punctuation">.</span>rabbitmqjava<span class="token punctuation">.</span>config</span><span class="token punctuation">;</span>
