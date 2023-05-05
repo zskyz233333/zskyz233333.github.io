@@ -645,6 +645,368 @@ systemctl daemon-reload<span aria-hidden="true" class="line-numbers-rows"><span>
 <h3 id="关闭Redis服务"><a href="#关闭Redis服务" class="headerlink" title="关闭Redis服务"></a>关闭Redis服务</h3><pre class="line-numbers language-none"><code class="language-none">shutdown
 exit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p><img src="img/Redis/%E5%85%B3%E9%97%ADRedis%E6%9C%8D%E5%8A%A1.jpg"></p>
+<h2 id="Fedora系统环境下配置部署"><a href="#Fedora系统环境下配置部署" class="headerlink" title="Fedora系统环境下配置部署"></a>Fedora系统环境下配置部署</h2><blockquote>
+<p>本篇文章由<a target="_blank" rel="noopener" href="https://ericclose.github.io/">Eric</a>提供的技术支持并完成的文章。感谢大佬！此篇笔记仅供自己学习和记录所用。</p>
+</blockquote>
+<h2 id="软件包安装"><a href="#软件包安装" class="headerlink" title="软件包安装"></a>软件包安装</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 安装 JDK 1.8.0、MySQL 社区版、nodejs16</span>
+<span class="token function">sudo</span> dnf -y <span class="token function">install</span> java-1.8.0-openjdk community-mysql-server nodejs16<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<hr>
+<h3 id="MySQL-配置"><a href="#MySQL-配置" class="headerlink" title="MySQL 配置"></a>MySQL 配置</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 更换 MySQL 端口</span>
+<span class="token comment">## 首先查看 MySQL 配置文件路径</span>
+<span class="token function">rpm</span> -ql community-mysql-server <span class="token operator">|</span> <span class="token function">grep</span> .cnf
+<span class="token comment">## 查到路径为: /etc/my.cnf.d/community-mysql-server.cnf </span>
+<span class="token comment"># 我们新增一行端口设置为 3307</span>
+<span class="token builtin class-name">echo</span> <span class="token string">'port=3307'</span> <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token function">tee</span> -a /etc/my.cnf.d/community-mysql-server.cnf
+
+<span class="token comment"># 将 mysqld 服务开机自启，并即刻启动服务</span>
+<span class="token function">sudo</span> systemctl <span class="token builtin class-name">enable</span> --now mysqld
+
+<span class="token comment"># MySQL 初始密码为空，为了安全考虑我们需要设置个密码</span>
+<span class="token comment"># 如: uoJ#%4cUQQvwEv</span>
+mysql -u root
+ALTER <span class="token environment constant">USER</span> <span class="token string">'root'</span>@<span class="token string">'localhost'</span> IDENTIFIED BY <span class="token string">'uoJ#%4cUQQvwEv'</span><span class="token punctuation">;</span>
+
+<span class="token comment"># 允许远程登录</span>
+use mysql
+update user <span class="token builtin class-name">set</span> <span class="token assign-left variable">host</span><span class="token operator">=</span><span class="token string">'%'</span> where user <span class="token operator">=</span><span class="token string">'root'</span><span class="token punctuation">;</span>
+flush privileges<span class="token punctuation">;</span>
+<span class="token keyword">select</span> host, user from user<span class="token punctuation">;</span>
+<span class="token builtin class-name">exit</span>
+
+<span class="token comment"># 首次使用前配置 MySQL，按照你的喜好回答安全问题（如果只是测试用，可以跳过）</span>
+<span class="token function">sudo</span> mysql_secure_installation
+<span class="token builtin class-name">exit</span>
+
+<span class="token comment"># 卸载 MySQL</span>
+<span class="token comment"># sudo rpm -e --nodeps mysql-community-libs mysql-community-common mysql-community-server</span>
+
+<span class="token comment"># 启动 firewalld 服务</span>
+<span class="token function">sudo</span> systemctl <span class="token builtin class-name">enable</span> --now firewalld
+
+<span class="token comment"># 开放 mysql 端口</span>
+<span class="token function">sudo</span> firewall-cmd --permanent --add-port<span class="token operator">=</span><span class="token number">3307</span>/tcp
+<span class="token function">sudo</span> firewall-cmd --reload<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="前后端打包"><a href="#前后端打包" class="headerlink" title="前后端打包"></a>前后端打包</h2><ul>
+<li>springboot 打包</li>
+</ul>
+<blockquote>
+<ol>
+<li><p>Maven -&gt; Lifecycle -&gt; package -&gt; Run Maven Build</p>
+</li>
+<li><p>target 目录找到 <code>*.jar</code> 文件</p>
+</li>
+</ol>
+</blockquote>
+<ul>
+<li>vue 打包</li>
+</ul>
+<blockquote>
+<ol>
+<li><p>vue 目录执行 <code>npm run build</code></p>
+</li>
+<li><p>dist 目录即为打包好的目录</p>
+</li>
+</ol>
+</blockquote>
+<p><strong>参考链接</strong></p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/CSDN2497242041/article/details/106911182">Spring Boot 项目部署到服务器的两种方式</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7029932613414420488">前端 Vue 项目打包部署实战教程</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000021530126">Vue 项目打包部署总结</a></p>
+</li>
+</ul>
+<hr>
+<h2 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h2><h3 id="Nginx-相关回退操作"><a href="#Nginx-相关回退操作" class="headerlink" title="Nginx 相关回退操作"></a>Nginx 相关回退操作</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># ⚠️ 仅供撤回 Nginx 的相关操作</span>
+
+<span class="token comment"># 查看java进程</span>
+<span class="token function">ps</span> -ef <span class="token operator">|</span> <span class="token function">grep</span> java
+
+<span class="token comment"># 停止 java 进程</span>
+<span class="token function">kill</span> -9 <span class="token variable"><span class="token variable">$(</span><span class="token function">ps</span> -ef <span class="token operator">|</span> <span class="token function">grep</span> java <span class="token operator">|</span> <span class="token function">grep</span> -v <span class="token function">grep</span> <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'&#123; printf <span class="token variable">$2</span> &#125;'</span><span class="token variable">)</span></span>
+
+<span class="token comment"># 禁用 nginx 服务自启，并停止运行</span>
+<span class="token function">sudo</span> systemctl disable --now nginx
+
+<span class="token comment"># 删除证书和密钥</span>
+<span class="token function">sudo</span> <span class="token function">rm</span> /etc/pki/tls/certs/zsky233.xyz.crt /etc/pki/tls/private/zsky233.xyz.key /etc/pki/tls/certs/authenticated_origin_pull_ca.pem
+
+<span class="token comment"># 删除 Nginx 的 web root</span>
+<span class="token function">sudo</span> <span class="token function">rm</span> -rf /var/www
+
+<span class="token comment"># 移除 selinux 上下文 记录</span>
+<span class="token function">sudo</span> semanage fcontext -d <span class="token string">"/var/www/zsky233.xyz(/.*)?"</span>
+<span class="token function">sudo</span> setsebool -P httpd_can_network_connect <span class="token number">0</span>
+
+<span class="token comment"># 删除 Nginx 的配置文件</span>
+<span class="token function">sudo</span> <span class="token function">rm</span> -rf /etc/nginx
+<span class="token comment"># 卸载 nginx</span>
+<span class="token function">sudo</span> dnf -y remove nginx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<hr>
+<h3 id="逐步尝试-Nginx-默认配置启动"><a href="#逐步尝试-Nginx-默认配置启动" class="headerlink" title="逐步尝试: Nginx 默认配置启动"></a>逐步尝试: Nginx 默认配置启动</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 重装 Nginx</span>
+<span class="token function">sudo</span> dnf -y <span class="token function">install</span> nginx
+
+<span class="token comment"># 测试 nginx 默认配置是否可用</span>
+<span class="token function">sudo</span> nginx -t
+
+<span class="token comment"># 如 successful，则 自启 并 启动 nginx 服务</span>
+<span class="token function">sudo</span> systemctl <span class="token builtin class-name">enable</span> --now nginx
+
+<span class="token comment"># 查看 Nginx 默认域名</span>
+<span class="token comment">## 结果为: 'server_name  _;'</span>
+<span class="token function">grep</span> server_name /etc/nginx/nginx.conf
+
+<span class="token comment"># A Default “Catch All” Server Block</span>
+<span class="token comment"># This is just an invalid value which will never trigger on a real host</span>
+<span class="token comment"># source: https://www.nginx.com/resources/wiki/start/topics/examples/server_blocks/#a-default-catch-all-server-block</span>
+<span class="token comment"># ---</span>
+<span class="token comment"># 意思是 定义了一个无效的服务器名称</span>
+<span class="token comment"># 在没有匹配的情况下，nginx 将选择第一个server&#123;&#125;块并使用它</span>
+<span class="token comment"># soure: https://serverfault.com/a/946623</span>
+
+<span class="token comment"># 查看 Nginx 默认的 web root</span>
+<span class="token comment">## 结果为: /usr/share/nginx/html</span>
+<span class="token function">grep</span> root /etc/nginx/nginx.conf
+
+<span class="token comment"># selinux 安全上下文相关配置</span>
+<span class="token function">sudo</span> dnf -y <span class="token function">install</span> policycoreutils-python-utils
+<span class="token comment"># 如果提示已定义 already defined，并无大碍</span>
+<span class="token function">sudo</span> semanage fcontext -a -t httpd_sys_content_t <span class="token string">"/usr/share/nginx/html(/.*)?"</span>
+<span class="token function">sudo</span> restorecon -Rv /usr/share/nginx/html/
+<span class="token function">sudo</span> setsebool -P httpd_can_network_connect <span class="token number">1</span>
+
+<span class="token comment"># 本地 curl 测试默认页面 或 域名，可行，但外部浏览器无法访问（因为防火墙未放行端口）</span>
+<span class="token function">curl</span> <span class="token number">100.42</span>.73.161
+<span class="token comment"># curl zsky233.xyz</span>
+
+<span class="token comment">#查看 Nginx 当前监听端口</span>
+<span class="token comment"># 查看结果为仅监听 80 端口，输出为:</span>
+<span class="token comment">#        listen       80;</span>
+<span class="token comment">#        listen       [::]:80;</span>
+<span class="token function">grep</span> listen /etc/nginx/nginx.conf
+
+<span class="token comment"># 放行 80 端口，检查外部浏览器应该可以访问了</span>
+<span class="token comment"># ip:    100.42.73.161</span>
+<span class="token comment"># 域名:   http://zsky233.xyz</span>
+<span class="token function">sudo</span> firewall-cmd --permanent --add-port<span class="token operator">=</span><span class="token number">80</span>/tcp
+<span class="token function">sudo</span> firewall-cmd --reload<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<hr>
+<h3 id="逐步尝试-Nginx-自定义页面启动"><a href="#逐步尝试-Nginx-自定义页面启动" class="headerlink" title="逐步尝试: Nginx 自定义页面启动"></a>逐步尝试: Nginx 自定义页面启动</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 创建个域名对应的 web root（路径非强制和域名对应）</span>
+<span class="token function">sudo</span> <span class="token function">mkdir</span> -p /var/www/zsky233.xyz/
+<span class="token function">sudo</span> semanage fcontext -a -t httpd_sys_content_t <span class="token string">"/var/www/zsky233.xyz(/.*)?"</span>
+<span class="token function">sudo</span> restorecon -Rv /var/www/zsky233.xyz/
+
+<span class="token comment"># 随便一个静态页面</span>
+<span class="token builtin class-name">cd</span> /var/www/zsky233.xyz/
+<span class="token function">sudo</span> <span class="token function">git</span> clone https://github.com/zskyz233333/zskyz233333.github.io.git
+<span class="token function">sudo</span> <span class="token function">mv</span> zskyz233333.github.io/* <span class="token builtin class-name">.</span>
+<span class="token function">sudo</span> <span class="token function">rm</span> -rf zskyz233333.github.io
+<span class="token function">sudo</span> <span class="token function">chmod</span> -R <span class="token number">755</span> /var/www
+
+<span class="token comment"># 修改 Nginx 配置的 默认 server&#123;&#125; 块</span>
+<span class="token comment">#        server_name  zsky233.xyz www.zsky233.xyz;</span>
+<span class="token comment">#        root         /var/www/zsky233.xyz;</span>
+<span class="token function">sudo</span> <span class="token function">vim</span> /etc/nginx/nginx.conf
+
+<span class="token comment"># 重启 Nginx，测试下</span>
+<span class="token comment"># ip:    100.42.73.161</span>
+<span class="token comment"># 域名:   http://zsky233.xyz</span>
+<span class="token function">sudo</span> systemctl restart nginx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<hr>
+<h3 id="逐步尝试-申请证书、使用-https-和-443-端口"><a href="#逐步尝试-申请证书、使用-https-和-443-端口" class="headerlink" title="逐步尝试: 申请证书、使用 https 和 443 端口"></a>逐步尝试: 申请证书、使用 https 和 443 端口</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># An ACME Shell script: acme.sh</span>
+<span class="token comment"># 免费获取证书的工具</span>
+<span class="token comment"># project: https://github.com/acmeshofficial/acme.sh</span>
+
+<span class="token comment"># 安装依赖 socat</span>
+<span class="token function">sudo</span> dnf -y <span class="token function">install</span> socat
+
+<span class="token comment"># 切换 root 用户</span>
+<span class="token function">sudo</span> <span class="token function">su</span>
+
+<span class="token comment"># 安装 acme.sh，邮箱会用于申请证书</span>
+<span class="token function">curl</span> https://get.acme.sh <span class="token operator">|</span> <span class="token function">sh</span> -s <span class="token assign-left variable">email</span><span class="token operator">=</span>zskyz233333@outlook.com
+<span class="token comment"># 创建符号链接，方便执行命令</span>
+<span class="token function">ln</span> -s ~/.acme.sh/acme.sh /usr/bin/acme.sh
+<span class="token comment"># 暂时停止 nginx 服务，因为 acme.sh 会临时占用 80 端口，用于验证身份</span>
+systemctl stop nginx
+<span class="token comment"># 做好域名解析后，就可以给域名颁发证书</span>
+acme.sh --issue -d zsky233.xyz -d www.zsky233.xyz --standalone --keylength ec-256 --force
+<span class="token comment"># 安装证书到指定位置</span>
+acme.sh --install-cert -d zsky233.xyz -d www.zsky233.xyz --ecc <span class="token punctuation">\</span>
+        --key-file       /etc/pki/tls/private/zsky233.xyz.key <span class="token punctuation">\</span>
+        --fullchain-file /etc/pki/tls/certs/zsky233.xyz.crt <span class="token punctuation">\</span>
+        --reloadcmd     <span class="token string">"systemctl reload-or-restart nginx"</span>
+<span class="token comment"># 退出 root 用户</span>
+<span class="token builtin class-name">exit</span>
+
+<span class="token comment"># 新增 Nginx 的 server&#123;&#125; 块</span>
+<span class="token comment"># Nginx 配置文件有 https 443 端口 的模板，取消注释即可使用</span>
+<span class="token comment"># 需要修改以下字段</span>
+<span class="token comment">#        server_name  zsky233.xyz www.zsky233.xyz;</span>
+<span class="token comment">#        root         /var/www/zsky233.xyz;</span>
+<span class="token comment">#</span>
+<span class="token comment">#        ssl_certificate "/etc/pki/tls/certs/zsky233.xyz.crt";</span>
+<span class="token comment">#        ssl_certificate_key "/etc/pki/tls/private/zsky233.xyz.key";</span>
+<span class="token function">sudo</span> <span class="token function">vim</span> /etc/nginx/nginx.conf
+
+<span class="token comment"># 重启 Nginx</span>
+<span class="token function">sudo</span> systemctl restart nginx
+
+<span class="token comment"># 放行 443 端口，检查外部浏览器应该可以访问了</span>
+<span class="token comment"># ip:    100.42.73.161</span>
+<span class="token comment"># 域名:   https://zsky233.xyz</span>
+<span class="token function">sudo</span> firewall-cmd --permanent --add-port<span class="token operator">=</span><span class="token number">443</span>/tcp
+<span class="token function">sudo</span> firewall-cmd --reload<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="前后端分离项目部署"><a href="#前后端分离项目部署" class="headerlink" title="前后端分离项目部署"></a>前后端分离项目部署</h2><h3 id="路由问题"><a href="#路由问题" class="headerlink" title="路由问题"></a>路由问题</h3><p><code>注意</code> vue项目的路由如果history模式的话，nginx需要如下配置：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">location / <span class="token punctuation">&#123;</span>
+            try_files <span class="token variable">$uri</span> <span class="token variable">$uri</span>/ <span class="token operator">=</span><span class="token number">404</span> /index.html<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="静态资源打不开或页面空白"><a href="#静态资源打不开或页面空白" class="headerlink" title="静态资源打不开或页面空白"></a>静态资源打不开或页面空白</h3><p>放到服务器中启动的vue项目可能会出现一些静态资源找不到或者打开一片空白的情况，需要如下调整：</p>
+<p><code>utils.js</code>  –&gt;在build目录下的utils.js</p>
+<p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/vue-utils.png"></p>
+<p><code>config/index.js</code>  —&gt;在config目录下的index.js</p>
+<p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/config1.png"></p>
+<p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/config2.png"></p>
+<p><code>vue.config.js</code>  —&gt;与src为同级目录</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">//打包配置文件
+module.exports <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+  assetsDir: <span class="token string">'static'</span>,
+  parallel: false,
+  /*
+      下方配置需要注意！
+      如果你的项目中引用了静态文件比如图片路径是   ./ 或者<span class="token punctuation">..</span>/
+      打包时候需要求改为 ./ 如果没有人用任何非网络路径的就默认 / 就ok了
+  */
+  publicPath: <span class="token string">'./'</span>,
+
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/vue.config.png"></p>
+<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>可能由于https问题会导致无法请求到后端请求，所以采用一个反向代理的方式：</p>
+<p><code>axios.js</code>  </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">axios.defaults.baseURL<span class="token operator">=</span><span class="token string">"/api"</span> //设置前后端传输时的默认前缀<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/axios.png"></p>
+<p><code>nginx.conf</code>  需要在nginx的配置文件中配置，/api为自定义须与前端接口对应起来</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">location /api <span class="token punctuation">&#123;</span>
+           proxy_pass http://127.0.0.1:8889<span class="token punctuation">;</span>
+
+           <span class="token comment"># 去除本地接口 /api 前缀, 否则会出现 404</span>
+           rewrite ^.+api/?<span class="token punctuation">(</span>.*<span class="token punctuation">)</span>$ /<span class="token variable">$1</span> <span class="token builtin class-name">break</span><span class="token punctuation">;</span>
+           
+           proxy_set_header Host <span class="token variable">$host</span><span class="token punctuation">;</span>
+           proxy_set_header X-Real-IP <span class="token variable">$remote_addr</span><span class="token punctuation">;</span>
+           proxy_set_header X-Forwarded-For <span class="token variable">$proxy_add_x_forwarded_for</span><span class="token punctuation">;</span>
+       <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="完整nginx配置"><a href="#完整nginx配置" class="headerlink" title="完整nginx配置"></a>完整nginx配置</h3><p><code>naginx.conf</code></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># For more information on configuration, see:</span>
+<span class="token comment">#   * Official English Documentation: http://nginx.org/en/docs/</span>
+<span class="token comment">#   * Official Russian Documentation: http://nginx.org/ru/docs/</span>
+
+user nginx<span class="token punctuation">;</span>
+worker_processes auto<span class="token punctuation">;</span>
+error_log /var/log/nginx/error.log notice<span class="token punctuation">;</span>
+pid /run/nginx.pid<span class="token punctuation">;</span>
+
+<span class="token comment"># Load dynamic modules. See /usr/share/doc/nginx/README.dynamic.</span>
+include /usr/share/nginx/modules/*.conf<span class="token punctuation">;</span>
+
+events <span class="token punctuation">&#123;</span>
+    worker_connections <span class="token number">1024</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+http <span class="token punctuation">&#123;</span>
+    log_format  main  <span class="token string">'<span class="token variable">$remote_addr</span> - <span class="token variable">$remote_user</span> [<span class="token variable">$time_local</span>] "<span class="token variable">$request</span>" '</span>
+                      <span class="token string">'<span class="token variable">$status</span> <span class="token variable">$body_bytes_sent</span> "<span class="token variable">$http_referer</span>" '</span>
+                      <span class="token string">'"<span class="token variable">$http_user_agent</span>" "<span class="token variable">$http_x_forwarded_for</span>"'</span><span class="token punctuation">;</span>
+
+    access_log  /var/log/nginx/access.log  main<span class="token punctuation">;</span>
+
+    sendfile            on<span class="token punctuation">;</span>
+    tcp_nopush          on<span class="token punctuation">;</span>
+    keepalive_timeout   <span class="token number">65</span><span class="token punctuation">;</span>
+    types_hash_max_size <span class="token number">4096</span><span class="token punctuation">;</span>
+
+    include             /etc/nginx/mime.types<span class="token punctuation">;</span>
+    default_type        application/octet-stream<span class="token punctuation">;</span>
+
+    <span class="token comment"># Load modular configuration files from the /etc/nginx/conf.d directory.</span>
+    <span class="token comment"># See http://nginx.org/en/docs/ngx_core_module.html#include</span>
+    <span class="token comment"># for more information.</span>
+    include /etc/nginx/conf.d/*.conf<span class="token punctuation">;</span>
+
+    server <span class="token punctuation">&#123;</span>
+        listen       <span class="token number">80</span> default_server<span class="token punctuation">;</span>
+        listen       <span class="token punctuation">[</span>::<span class="token punctuation">]</span>:80 default_server<span class="token punctuation">;</span>
+
+        server_name  zsky233.xyz www.zsky233.xyz<span class="token punctuation">;</span>
+        root         /var/www/zsky233.xyz<span class="token punctuation">;</span>
+
+        location / <span class="token punctuation">&#123;</span>
+            <span class="token builtin class-name">return</span> <span class="token number">301</span> https://<span class="token variable">$host</span><span class="token variable">$request_uri</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token comment"># Settings for a TLS enabled server.</span>
+
+   server <span class="token punctuation">&#123;</span>
+       listen       <span class="token number">443</span> ssl http2<span class="token punctuation">;</span>
+       listen       <span class="token punctuation">[</span>::<span class="token punctuation">]</span>:443 ssl http2<span class="token punctuation">;</span>
+
+       server_name  zsky233.xyz www.zsky233.xyz<span class="token punctuation">;</span>
+       root         /var/www/zsky233.xyz<span class="token punctuation">;</span>
+
+       ssl_certificate <span class="token string">"/etc/pki/tls/certs/zsky233.xyz.crt"</span><span class="token punctuation">;</span>
+       ssl_certificate_key <span class="token string">"/etc/pki/tls/private/zsky233.xyz.key"</span><span class="token punctuation">;</span>
+       ssl_session_timeout 1d<span class="token punctuation">;</span>
+       ssl_session_cache shared:MozSSL:10m<span class="token punctuation">;</span>  <span class="token comment"># about 40000 sessions</span>
+       ssl_ciphers <span class="token assign-left variable">PROFILE</span><span class="token operator">=</span>SYSTEM<span class="token punctuation">;</span>
+       ssl_prefer_server_ciphers on<span class="token punctuation">;</span>
+
+       <span class="token comment"># HSTS (ngx_http_headers_module is required) (63072000 seconds)</span>
+       add_header Strict-Transport-Security <span class="token string">"max-age=63072000"</span> always<span class="token punctuation">;</span>
+
+       <span class="token comment"># Load configuration files for the default server block.</span>
+       include /etc/nginx/default.d/*.conf<span class="token punctuation">;</span>
+
+        location / <span class="token punctuation">&#123;</span>
+            try_files <span class="token variable">$uri</span> <span class="token variable">$uri</span>/ <span class="token operator">=</span><span class="token number">404</span> /index.html<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+       location /api <span class="token punctuation">&#123;</span>
+           proxy_pass http://127.0.0.1:8889<span class="token punctuation">;</span>
+
+           <span class="token comment"># 去除本地接口 /api 前缀, 否则会出现 404</span>
+           rewrite ^.+api/?<span class="token punctuation">(</span>.*<span class="token punctuation">)</span>$ /<span class="token variable">$1</span> <span class="token builtin class-name">break</span><span class="token punctuation">;</span>
+           
+           proxy_set_header Host <span class="token variable">$host</span><span class="token punctuation">;</span>
+           proxy_set_header X-Real-IP <span class="token variable">$remote_addr</span><span class="token punctuation">;</span>
+           proxy_set_header X-Forwarded-For <span class="token variable">$proxy_add_x_forwarded_for</span><span class="token punctuation">;</span>
+       <span class="token punctuation">&#125;</span>
+
+       error_page <span class="token number">404</span> /404.html<span class="token punctuation">;</span>
+       location <span class="token operator">=</span> /404.html <span class="token punctuation">&#123;</span>
+       <span class="token punctuation">&#125;</span>
+
+       error_page <span class="token number">500</span> <span class="token number">502</span> <span class="token number">503</span> <span class="token number">504</span> /50x.html<span class="token punctuation">;</span>
+       location <span class="token operator">=</span> /50x.html <span class="token punctuation">&#123;</span>
+       <span class="token punctuation">&#125;</span>
+   <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<p>将 vue 打包好的文件复制到 Nginx 配置文件里的 Web root: <code>/var/www/zsky233.xyz</code></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">cp</span> -r ~/vue-dist/* /var/www/zsky233.xyz/
+
+<span class="token comment"># 测试下 Nginx 的配置文件语法</span>
+<span class="token function">sudo</span> nginx -t
+<span class="token comment"># 重启 nginx 服务</span>
+<span class="token function">sudo</span> systemctl restart nginx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>浏览器访问<a target="_blank" rel="noopener" href="https://zsky233.xyz/">网址</a></p>
 
                 
             </div>
