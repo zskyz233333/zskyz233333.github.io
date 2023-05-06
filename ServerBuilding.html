@@ -645,13 +645,13 @@ systemctl daemon-reload<span aria-hidden="true" class="line-numbers-rows"><span>
 <h3 id="关闭Redis服务"><a href="#关闭Redis服务" class="headerlink" title="关闭Redis服务"></a>关闭Redis服务</h3><pre class="line-numbers language-none"><code class="language-none">shutdown
 exit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p><img src="img/Redis/%E5%85%B3%E9%97%ADRedis%E6%9C%8D%E5%8A%A1.jpg"></p>
-<h1 id="Fedora系统环境下配置部署"><a href="#Fedora系统环境下配置部署" class="headerlink" title="Fedora系统环境下配置部署"></a>Fedora系统环境下配置部署</h1><blockquote>
+<h2 id="Fedora系统环境下配置部署"><a href="#Fedora系统环境下配置部署" class="headerlink" title="Fedora系统环境下配置部署"></a>Fedora系统环境下配置部署</h2><blockquote>
 <p>本篇文章由<a target="_blank" rel="noopener" href="https://ericclose.github.io/">Eric</a>提供的技术支持并完成的文章。感谢大佬！此篇笔记仅供自己学习和记录所用。</p>
 </blockquote>
-<h2 id="软件包安装"><a href="#软件包安装" class="headerlink" title="软件包安装"></a>软件包安装</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 安装 JDK 1.8.0、MySQL 社区版、nodejs16</span>
+<h3 id="软件包安装"><a href="#软件包安装" class="headerlink" title="软件包安装"></a>软件包安装</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 安装 JDK 1.8.0、MySQL 社区版、nodejs16</span>
 <span class="token function">sudo</span> dnf -y <span class="token function">install</span> java-1.8.0-openjdk community-mysql-server nodejs16<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <hr>
-<h3 id="MySQL-配置"><a href="#MySQL-配置" class="headerlink" title="MySQL 配置"></a>MySQL 配置</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 更换 MySQL 端口</span>
+<h4 id="MySQL-配置"><a href="#MySQL-配置" class="headerlink" title="MySQL 配置"></a>MySQL 配置</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 更换 MySQL 端口</span>
 <span class="token comment">## 首先查看 MySQL 配置文件路径</span>
 <span class="token function">rpm</span> -ql community-mysql-server <span class="token operator">|</span> <span class="token function">grep</span> .cnf
 <span class="token comment">## 查到路径为: /etc/my.cnf.d/community-mysql-server.cnf </span>
@@ -686,7 +686,7 @@ flush privileges<span class="token punctuation">;</span>
 <span class="token comment"># 开放 mysql 端口</span>
 <span class="token function">sudo</span> firewall-cmd --permanent --add-port<span class="token operator">=</span><span class="token number">3307</span>/tcp
 <span class="token function">sudo</span> firewall-cmd --reload<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="前后端打包"><a href="#前后端打包" class="headerlink" title="前后端打包"></a>前后端打包</h2><ul>
+<h3 id="前后端打包"><a href="#前后端打包" class="headerlink" title="前后端打包"></a>前后端打包</h3><ul>
 <li>springboot 打包</li>
 </ul>
 <blockquote>
@@ -718,7 +718,7 @@ flush privileges<span class="token punctuation">;</span>
 </li>
 </ul>
 <hr>
-<h2 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h2><h3 id="Nginx-相关回退操作"><a href="#Nginx-相关回退操作" class="headerlink" title="Nginx 相关回退操作"></a>Nginx 相关回退操作</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># ⚠️ 仅供撤回 Nginx 的相关操作</span>
+<h3 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h3><h4 id="Nginx-相关回退操作"><a href="#Nginx-相关回退操作" class="headerlink" title="Nginx 相关回退操作"></a>Nginx 相关回退操作</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># ⚠️ 仅供撤回 Nginx 的相关操作</span>
 
 <span class="token comment"># 查看java进程</span>
 <span class="token function">ps</span> -ef <span class="token operator">|</span> <span class="token function">grep</span> java
@@ -744,7 +744,7 @@ flush privileges<span class="token punctuation">;</span>
 <span class="token comment"># 卸载 nginx</span>
 <span class="token function">sudo</span> dnf -y remove nginx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <hr>
-<h3 id="逐步尝试-Nginx-默认配置启动"><a href="#逐步尝试-Nginx-默认配置启动" class="headerlink" title="逐步尝试: Nginx 默认配置启动"></a>逐步尝试: Nginx 默认配置启动</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 重装 Nginx</span>
+<h4 id="逐步尝试-Nginx-默认配置启动"><a href="#逐步尝试-Nginx-默认配置启动" class="headerlink" title="逐步尝试: Nginx 默认配置启动"></a>逐步尝试: Nginx 默认配置启动</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 重装 Nginx</span>
 <span class="token function">sudo</span> dnf -y <span class="token function">install</span> nginx
 
 <span class="token comment"># 测试 nginx 默认配置是否可用</span>
@@ -792,7 +792,7 @@ flush privileges<span class="token punctuation">;</span>
 <span class="token function">sudo</span> firewall-cmd --permanent --add-port<span class="token operator">=</span><span class="token number">80</span>/tcp
 <span class="token function">sudo</span> firewall-cmd --reload<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <hr>
-<h3 id="逐步尝试-Nginx-自定义页面启动"><a href="#逐步尝试-Nginx-自定义页面启动" class="headerlink" title="逐步尝试: Nginx 自定义页面启动"></a>逐步尝试: Nginx 自定义页面启动</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 创建个域名对应的 web root（路径非强制和域名对应）</span>
+<h4 id="逐步尝试-Nginx-自定义页面启动"><a href="#逐步尝试-Nginx-自定义页面启动" class="headerlink" title="逐步尝试: Nginx 自定义页面启动"></a>逐步尝试: Nginx 自定义页面启动</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 创建个域名对应的 web root（路径非强制和域名对应）</span>
 <span class="token function">sudo</span> <span class="token function">mkdir</span> -p /var/www/zsky233.xyz/
 <span class="token function">sudo</span> semanage fcontext -a -t httpd_sys_content_t <span class="token string">"/var/www/zsky233.xyz(/.*)?"</span>
 <span class="token function">sudo</span> restorecon -Rv /var/www/zsky233.xyz/
@@ -814,7 +814,7 @@ flush privileges<span class="token punctuation">;</span>
 <span class="token comment"># 域名:   http://zsky233.xyz</span>
 <span class="token function">sudo</span> systemctl restart nginx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <hr>
-<h3 id="逐步尝试-申请证书、使用-https-和-443-端口"><a href="#逐步尝试-申请证书、使用-https-和-443-端口" class="headerlink" title="逐步尝试: 申请证书、使用 https 和 443 端口"></a>逐步尝试: 申请证书、使用 https 和 443 端口</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># An ACME Shell script: acme.sh</span>
+<h4 id="逐步尝试-申请证书、使用-https-和-443-端口"><a href="#逐步尝试-申请证书、使用-https-和-443-端口" class="headerlink" title="逐步尝试: 申请证书、使用 https 和 443 端口"></a>逐步尝试: 申请证书、使用 https 和 443 端口</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># An ACME Shell script: acme.sh</span>
 <span class="token comment"># 免费获取证书的工具</span>
 <span class="token comment"># project: https://github.com/acmeshofficial/acme.sh</span>
 
@@ -859,12 +859,12 @@ acme.sh --install-cert -d zsky233.xyz -d www.zsky233.xyz --ecc <span class="toke
 <span class="token function">sudo</span> firewall-cmd --permanent --add-port<span class="token operator">=</span><span class="token number">443</span>/tcp
 <span class="token function">sudo</span> firewall-cmd --reload<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h2 id="前后端分离项目部署"><a href="#前后端分离项目部署" class="headerlink" title="前后端分离项目部署"></a>前后端分离项目部署</h2><h3 id="路由问题"><a href="#路由问题" class="headerlink" title="路由问题"></a>路由问题</h3><p><code>注意</code> vue项目的路由如果history模式的话，nginx需要如下配置：</p>
+<h3 id="前后端分离项目部署"><a href="#前后端分离项目部署" class="headerlink" title="前后端分离项目部署"></a>前后端分离项目部署</h3><h4 id="路由问题"><a href="#路由问题" class="headerlink" title="路由问题"></a>路由问题</h4><p><code>注意</code> vue项目的路由如果history模式的话，nginx需要如下配置：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">location / <span class="token punctuation">&#123;</span>
             try_files <span class="token variable">$uri</span> <span class="token variable">$uri</span>/ <span class="token operator">=</span><span class="token number">404</span> /index.html<span class="token punctuation">;</span>
         <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="静态资源打不开或页面空白"><a href="#静态资源打不开或页面空白" class="headerlink" title="静态资源打不开或页面空白"></a>静态资源打不开或页面空白</h3><p>放到服务器中启动的vue项目可能会出现一些静态资源找不到或者打开一片空白的情况，需要如下调整：</p>
+<h4 id="静态资源打不开或页面空白"><a href="#静态资源打不开或页面空白" class="headerlink" title="静态资源打不开或页面空白"></a>静态资源打不开或页面空白</h4><p>放到服务器中启动的vue项目可能会出现一些静态资源找不到或者打开一片空白的情况，需要如下调整：</p>
 <p><code>utils.js</code>  –&gt;在build目录下的utils.js</p>
 <p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/vue-utils.png"></p>
 <p><code>config/index.js</code>  —&gt;在config目录下的index.js</p>
@@ -884,7 +884,7 @@ module.exports <span class="token operator">=</span> <span class="token punctuat
 
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/vue.config.png"></p>
-<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>可能由于https问题会导致无法请求到后端请求，所以采用一个反向代理的方式：</p>
+<h4 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h4><p>可能由于https问题会导致无法请求到后端请求，所以采用一个反向代理的方式：</p>
 <p><code>axios.js</code>  </p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">axios.defaults.baseURL<span class="token operator">=</span><span class="token string">"/api"</span> //设置前后端传输时的默认前缀<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p><img src="img/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/axios.png"></p>
@@ -902,7 +902,7 @@ module.exports <span class="token operator">=</span> <span class="token punctuat
 
 
 
-<h3 id="完整nginx配置"><a href="#完整nginx配置" class="headerlink" title="完整nginx配置"></a>完整nginx配置</h3><p><code>naginx.conf</code></p>
+<h4 id="完整nginx配置"><a href="#完整nginx配置" class="headerlink" title="完整nginx配置"></a>完整nginx配置</h4><p><code>naginx.conf</code></p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># For more information on configuration, see:</span>
 <span class="token comment">#   * Official English Documentation: http://nginx.org/en/docs/</span>
 <span class="token comment">#   * Official Russian Documentation: http://nginx.org/ru/docs/</span>
@@ -1006,7 +1006,7 @@ http <span class="token punctuation">&#123;</span>
 <span class="token function">sudo</span> nginx -t
 <span class="token comment"># 重启 nginx 服务</span>
 <span class="token function">sudo</span> systemctl restart nginx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>浏览器访问<a target="_blank" rel="noopener" href="https://zsky233.xyz/">网址</a></p>
+<p>浏览器访问<a target="_blank" rel="noopener" href="https://zsky233.xyz/">https://zsky233.xyz</a></p>
 
                 
             </div>

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="JMeter, Sky&#39;s Blog">
+    <meta name="keywords" content="IDEA远程连接服务器项目进行调试, Sky&#39;s Blog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -27,7 +27,7 @@
 </script>
 
 
-    <title>JMeter | Sky&#39;s Blog</title>
+    <title>IDEA远程连接服务器项目进行调试 | Sky&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -264,7 +264,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">JMeter</h1>
+                    <h1 class="description center-align post-title">IDEA远程连接服务器项目进行调试</h1>
                 </div>
             </div>
         </div>
@@ -380,16 +380,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Java/">
-                                <span class="chip bg-color">Java</span>
+                            <a href="/tags/IDEA/">
+                                <span class="chip bg-color">IDEA</span>
                             </a>
                         
-                            <a href="/tags/%E6%B5%8B%E8%AF%95/">
-                                <span class="chip bg-color">测试</span>
-                            </a>
-                        
-                            <a href="/tags/JMeter/">
-                                <span class="chip bg-color">JMeter</span>
+                            <a href="/tags/Linux/">
+                                <span class="chip bg-color">Linux</span>
                             </a>
                         
                     </div>
@@ -400,8 +396,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/JMeter/" class="post-category">
-                                JMeter
+                            <a href="/categories/IDEA/" class="post-category">
+                                IDEA
                             </a>
                         
                     </div>
@@ -413,7 +409,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-05-02
+                    2023-05-05
                 </div>
                 
 
@@ -438,58 +434,21 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <blockquote>
-<p>这篇文章主要介绍JMeter开源性能测试工具的使用。参考自<a target="_blank" rel="noopener" href="https://www.byhy.net/tut/others/loadtest/jmeter/01/">白月黑羽</a></p>
+<p>很多时候会遇到本地跑项目没问题，放到服务器上就有各种奇奇怪怪的出错等玄学问题这时就需要进行远程Debug。这篇文章主要介绍IDEA如何远程连接服务器项目进行本地调试。</p>
 </blockquote>
-<h2 id="JMeter"><a href="#JMeter" class="headerlink" title="JMeter"></a>JMeter</h2><p>JMeter 是一个功能强大的开源性能测试工具，它由一组可定制的测试脚本组成，可以模拟各种负载和场景，例如并发用户、请求频率、数据包大小、延迟等。 不仅可以用于测试 Web 应用程序、网络应用程序、分布式系统和其他软件系统的性能和稳定性，同时还具有可扩展性、可定制性、易于使用和可靠性等优点，因此被广泛应用于自动化测试、性能测试和压力测试等领域。</p>
-<h3 id="JMeter-由三个主要组件组成："><a href="#JMeter-由三个主要组件组成：" class="headerlink" title="JMeter 由三个主要组件组成："></a>JMeter 由三个主要组件组成：</h3><ol>
-<li><p>JMeter 测试框架：这是一个命令行工具，它可以用于启动、配置和监控性能测试。JMeter 测试框架提供了一些内置的测试场景，例如 HTTP 请求、线程组、采样器、断言等，用户可以根据需求进行自定义。</p>
-</li>
-<li><p>JMeter 脚本语言：这是一种基于 Java 的脚本语言，它允许用户自定义测试场景和测试参数。JMeter 脚本语言支持各种语法和功能，例如条件语句、循环结构、变量赋值、函数等。</p>
-</li>
-<li><p>JMeter 测试结果分析工具：这是一个 Web 界面，它可以用于分析和可视化 JMeter 测试结果。JMeter 测试结果分析工具提供了各种指标和图表，例如吞吐量、响应时间、错误率、CPU 使用率等，用户可以通过这些指标和图表对系统的性能进行评估和优化。</p>
-</li>
-</ol>
-<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
-<li>可扩展性:JMeter 支持自定义测试脚本，因此可以方便地添加和删除测试元素，以适应不同的测试需求。</li>
-</ol>
-<ol start="2">
-<li>可定制性:JMeter 提供了大量的可定制选项，例如测试脚本、负载生成器、HTTP 请求等，因此可以方便地调整测试结果。</li>
-</ol>
-<ol start="3">
-<li>易于使用:JMeter 易于安装和配置，并且提供了简单的命令行界面，因此可以方便地用于自动化测试和其他场景。</li>
-</ol>
-<ol start="4">
-<li>可靠性:JMeter 经过多次版本更新，已经变得越来越稳定，并且有大量的用户和贡献者参与维护和开发。</li>
-</ol>
-<h3 id="JMeter多种测试场景和测试结果分析工具"><a href="#JMeter多种测试场景和测试结果分析工具" class="headerlink" title="JMeter多种测试场景和测试结果分析工具"></a>JMeter多种测试场景和测试结果分析工具</h3><ol>
-<li>HTTP 请求:JMeter 可以生成各种 HTTP 请求，例如 GET、POST、PUT、DELETE 等，用户可以通过这些请求测试 Web 应用程序的性能和稳定性。</li>
-</ol>
-<ol start="2">
-<li>TCP 连接:JMeter 可以生成多个 TCP 连接，用户可以通过这些连接测试网络应用程序的性能和稳定性。</li>
-</ol>
-<ol start="3">
-<li>负载生成器:JMeter 可以生成各种负载，例如并发用户、请求频率、数据包大小等，用户可以通过这些负载测试系统在高负载条件下的性能和稳定性。</li>
-</ol>
-<ol start="4">
-<li>断言:JMeter 支持各种断言，例如成功断言、失败断言、时间断言、参数断言等，用户可以通过这些断言测试 HTTP 请求的可靠性和正确性。</li>
-</ol>
-<p><code>JMeter 测试结果分析工具提供了各种指标和图表，例如吞吐量、响应时间、错误率、CPU 使用率等，用户可以通过这些指标和图表对系统的性能进行评估和优化。</code></p>
-<ol>
-<li><p>自定义报告：用户可以自定义 JMeter 测试报告，以适应不同的测试需求。JMeter 测试报告可以包括各种指标和图表，例如吞吐量、响应时间、错误率、CPU 使用率等。</p>
-</li>
-<li><p>数据收集:JMeter 测试结果分析工具可以收集和分析测试数据，例如请求次数、响应次数、响应时间、错误率等。用户可以通过这些数据对系统的性能进行评估和优化。</p>
-</li>
-<li><p>测试报告生成:JMeter 测试结果分析工具可以生成测试报告，并将其保存在本地或远程服务器上。用户可以通过这些报告了解系统的性能和稳定性，并进行优化。</p>
-</li>
-<li><p>自动化测试:JMeter 支持自动化测试，用户可以通过这些测试脚本自动化执行测试，并记录测试结果。自动化测试可以提高测试效率和准确性。</p>
-</li>
-</ol>
-<h2 id="JMeter安装"><a href="#JMeter安装" class="headerlink" title="JMeter安装"></a>JMeter安装</h2><h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>首先因为JMete是Java程序首先得先准备好JDK环境，其次安装JMeter程序，最后当然是准备好被测试的系统。</p>
-<h3 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h3><p><a target="_blank" rel="noopener" href="https://jmeter.apache.org/download_jmeter.cgi">https://jmeter.apache.org/download_jmeter.cgi</a></p>
-<p><img src="img/JMeter/JMeter%E4%B8%8B%E8%BD%BD.png"></p>
-<p>解压后进入到bin目录下双击 jmeter.bat文件即可运行。</p>
-<p>如果界面比较小可以在Options中点击Zoom In 放大。</p>
-<h2 id="JMeter使用"><a href="#JMeter使用" class="headerlink" title="JMeter使用"></a>JMeter使用</h2><p>一个JMeter的测试计划(test plan)对应性能测试的一个场景，其实也就是一个测试用例。</p>
+<h2 id="IDEA"><a href="#IDEA" class="headerlink" title="IDEA"></a>IDEA</h2><p>点击【Edit Configurations】-【Add New Configuration】-【Remote】</p>
+<p><img src="img/IdeaDebug/Idea.png"></p>
+<h2 id="重启服务器需Debug的项目"><a href="#重启服务器需Debug的项目" class="headerlink" title="重启服务器需Debug的项目"></a>重启服务器需Debug的项目</h2><p><code>注意</code>在服务器中记得开放对应的5005端口</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看java进程</span>
+<span class="token function">ps</span> -ef <span class="token operator">|</span> <span class="token function">grep</span> java
+
+<span class="token comment"># 停止 java 进程</span>
+<span class="token function">kill</span> -9 <span class="token variable"><span class="token variable">$(</span><span class="token function">ps</span> -ef <span class="token operator">|</span> <span class="token function">grep</span> java <span class="token operator">|</span> <span class="token function">grep</span> -v <span class="token function">grep</span> <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'&#123; printf <span class="token variable">$2</span> &#125;'</span><span class="token variable">)</span></span>
+
+<span class="token comment"># 使用如下命令启动</span>
+java -agentlib:jdwp<span class="token operator">=</span>transport<span class="token operator">=</span>dt_socket,server<span class="token operator">=</span>y,suspend<span class="token operator">=</span>n,address<span class="token operator">=</span><span class="token number">0.0</span>.0.0:5005 -jar demo-0.0.1-SNAPSHOT.jar<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="本地IDEA启动调试"><a href="#本地IDEA启动调试" class="headerlink" title="本地IDEA启动调试"></a>本地IDEA启动调试</h2><p><img src="img/IdeaDebug/debug.png"></p>
 
                 
             </div>
@@ -516,7 +475,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://zskyz233333.github.io/JMeter.html">https://zskyz233333.github.io/JMeter.html</a>
+                    <a href="https://zskyz233333.github.io/IdeaDebug.html">https://zskyz233333.github.io/IdeaDebug.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -554,16 +513,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Java/">
-                                    <span class="chip bg-color">Java</span>
+                                <a href="/tags/IDEA/">
+                                    <span class="chip bg-color">IDEA</span>
                                 </a>
                             
-                                <a href="/tags/%E6%B5%8B%E8%AF%95/">
-                                    <span class="chip bg-color">测试</span>
-                                </a>
-                            
-                                <a href="/tags/JMeter/">
-                                    <span class="chip bg-color">JMeter</span>
+                                <a href="/tags/Linux/">
+                                    <span class="chip bg-color">Linux</span>
                                 </a>
                             
                         </div>
@@ -734,7 +689,7 @@
         repo: 'zskyz233333.github.io',
         owner: 'zskyz233333',
         admin: ["zskyz233333"],
-        id: '2023-05-02T00-00-00',
+        id: '2023-05-05T00-00-00',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -762,9 +717,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/IdeaDebug.html">
                     <div class="card-image">
@@ -782,9 +738,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-05-05
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-05-05
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -797,6 +753,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -819,13 +776,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/Fiddler.html">
+                <a href="/JMeter.html">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Fiddler抓包">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="JMeter">
                         
-                        <span class="card-title">Fiddler抓包</span>
+                        <span class="card-title">JMeter</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -836,14 +793,14 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-29
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-05-02
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Fiddler/" class="post-category">
-                                    Fiddler
+                            <a href="/categories/JMeter/" class="post-category">
+                                    JMeter
                                 </a>
                             
                             
@@ -853,12 +810,16 @@
                 
                 <div class="card-action article-tags">
                     
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
                     <a href="/tags/%E6%B5%8B%E8%AF%95/">
                         <span class="chip bg-color">测试</span>
                     </a>
                     
-                    <a href="/tags/Fiddler/">
-                        <span class="chip bg-color">Fiddler</span>
+                    <a href="/tags/JMeter/">
+                        <span class="chip bg-color">JMeter</span>
                     </a>
                     
                 </div>
