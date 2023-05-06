@@ -777,7 +777,7 @@ flush privileges<span class="token punctuation">;</span>
 <span class="token function">sudo</span> setsebool -P httpd_can_network_connect <span class="token number">1</span>
 
 <span class="token comment"># 本地 curl 测试默认页面 或 域名，可行，但外部浏览器无法访问（因为防火墙未放行端口）</span>
-<span class="token function">curl</span> <span class="token number">100.42</span>.73.161
+<span class="token function">curl</span> <span class="token number">101.123</span>.42.163
 <span class="token comment"># curl zsky233.xyz</span>
 
 <span class="token comment">#查看 Nginx 当前监听端口</span>
@@ -787,7 +787,7 @@ flush privileges<span class="token punctuation">;</span>
 <span class="token function">grep</span> listen /etc/nginx/nginx.conf
 
 <span class="token comment"># 放行 80 端口，检查外部浏览器应该可以访问了</span>
-<span class="token comment"># ip:    100.42.73.161</span>
+<span class="token comment"># ip:    101.123.42.163</span>
 <span class="token comment"># 域名:   http://zsky233.xyz</span>
 <span class="token function">sudo</span> firewall-cmd --permanent --add-port<span class="token operator">=</span><span class="token number">80</span>/tcp
 <span class="token function">sudo</span> firewall-cmd --reload<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
@@ -810,7 +810,7 @@ flush privileges<span class="token punctuation">;</span>
 <span class="token function">sudo</span> <span class="token function">vim</span> /etc/nginx/nginx.conf
 
 <span class="token comment"># 重启 Nginx，测试下</span>
-<span class="token comment"># ip:    100.42.73.161</span>
+<span class="token comment"># ip:    101.123.42.163</span>
 <span class="token comment"># 域名:   http://zsky233.xyz</span>
 <span class="token function">sudo</span> systemctl restart nginx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <hr>
@@ -825,7 +825,7 @@ flush privileges<span class="token punctuation">;</span>
 <span class="token function">sudo</span> <span class="token function">su</span>
 
 <span class="token comment"># 安装 acme.sh，邮箱会用于申请证书</span>
-<span class="token function">curl</span> https://get.acme.sh <span class="token operator">|</span> <span class="token function">sh</span> -s <span class="token assign-left variable">email</span><span class="token operator">=</span>zskyz233333@outlook.com
+<span class="token function">curl</span> https://get.acme.sh <span class="token operator">|</span> <span class="token function">sh</span> -s <span class="token assign-left variable">email</span><span class="token operator">=</span>zskyz233@outlook.com
 <span class="token comment"># 创建符号链接，方便执行命令</span>
 <span class="token function">ln</span> -s ~/.acme.sh/acme.sh /usr/bin/acme.sh
 <span class="token comment"># 暂时停止 nginx 服务，因为 acme.sh 会临时占用 80 端口，用于验证身份</span>
@@ -854,7 +854,7 @@ acme.sh --install-cert -d zsky233.xyz -d www.zsky233.xyz --ecc <span class="toke
 <span class="token function">sudo</span> systemctl restart nginx
 
 <span class="token comment"># 放行 443 端口，检查外部浏览器应该可以访问了</span>
-<span class="token comment"># ip:    100.42.73.161</span>
+<span class="token comment"># ip:    101.123.42.163</span>
 <span class="token comment"># 域名:   https://zsky233.xyz</span>
 <span class="token function">sudo</span> firewall-cmd --permanent --add-port<span class="token operator">=</span><span class="token number">443</span>/tcp
 <span class="token function">sudo</span> firewall-cmd --reload<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
