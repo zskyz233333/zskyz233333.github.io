@@ -554,14 +554,42 @@ Body size <span class="token keyword">in</span> bytes ：   响应消息体大�
 </ul>
 <ol>
 <li><p>设置浏览器代理为 本机（localhost） 的 8888端口，进行对应的界面操作应该发现抓到了相应的请求。</p>
+<p>可以安装浏览器管理代理插件： <code>Proxy SwitchyOmega</code></p>
+<p><img src="img/JMeter/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BB%A3%E7%90%86.png"></p>
 </li>
+</ol>
+<ol start="2">
 <li><p>右键点击录制线程组点击验证 ，查看一下是否能正确模拟</p>
+<p><img src="img/JMeter/%E5%90%AF%E5%8A%A8.png"></p>
+<p><img src="img/JMeter/%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%90%86.png"></p>
 </li>
 <li><p>继续其它场景的录制和拖动</p>
 </li>
 <li><p>结束录制，修改浏览器设置，取消代理</p>
 </li>
 </ol>
+<p><img src="img/JMeter/%E6%88%90%E5%8A%9F%E5%BD%95%E5%88%B6.png"></p>
+<p><code>注意</code>结束录制后记得在浏览器关闭代理</p>
+<h3 id="流量录制Https请求问题"><a href="#流量录制Https请求问题" class="headerlink" title="流量录制Https请求问题"></a>流量录制Https请求问题</h3><p>这里遇到了很多小坑，由于我的项目放在服务器上而且是Https的请求，所以会存在安全证书问题导致无法访问。</p>
+<ol>
+<li>在HTTP(S) Test Script Recorder中，点击“启动”按钮。在JMeter的bin目录下会生成名为ApacheJMeterTemporaryRootCA.crt的证书文件</li>
+</ol>
+<p><img src="img/JMeter/%E7%94%9F%E6%88%90%E8%AF%81%E4%B9%A6.png"></p>
+<ol start="2">
+<li>JMeter打开Options—》SSL Manager 导入安全证书</li>
+</ol>
+<p><img src="img/JMeter/%E5%AF%BC%E5%85%A5%E8%AF%81%E4%B9%A6.png"></p>
+<ol start="3">
+<li>浏览器中添加证书</li>
+</ol>
+<p><img src="img/JMeter/%E5%AF%BC%E5%85%A5%E8%AF%81%E4%B9%A62.png"></p>
+<ol start="4">
+<li>代理设置</li>
+</ol>
+<p><img src="img/JMeter/%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE.png"></p>
+<h3 id="模拟间隔时间"><a href="#模拟间隔时间" class="headerlink" title="模拟间隔时间"></a>模拟间隔时间</h3><p>可以使用 JMeter的 定时器 Timer也可以使用 取样器 里面的 测试活动 flow control action 取样器</p>
+<p><img src="img/JMeter/%E6%B5%8B%E8%AF%95%E6%B4%BB%E5%8A%A8.png"></p>
+<p><code>注意</code>定时器Timer可能会使同级目录下所有请求都等待间隔。</p>
 
                 
             </div>
