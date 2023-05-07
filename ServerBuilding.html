@@ -861,7 +861,7 @@ acme.sh --install-cert -d zsky233.xyz -d www.zsky233.xyz --ecc <span class="toke
 
 <h3 id="前后端分离项目部署"><a href="#前后端分离项目部署" class="headerlink" title="前后端分离项目部署"></a>前后端分离项目部署</h3><h4 id="路由问题"><a href="#路由问题" class="headerlink" title="路由问题"></a>路由问题</h4><p><code>注意</code> vue项目的路由如果history模式的话，nginx需要如下配置：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">location / <span class="token punctuation">&#123;</span>
-            try_files <span class="token variable">$uri</span> <span class="token variable">$uri</span>/ <span class="token operator">=</span><span class="token number">404</span> /index.html<span class="token punctuation">;</span>
+            try_files <span class="token variable">$uri</span> <span class="token variable">$uri</span>/ /index.html <span class="token operator">=</span><span class="token number">404</span> <span class="token punctuation">;</span>
         <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <h4 id="静态资源打不开或页面空白"><a href="#静态资源打不开或页面空白" class="headerlink" title="静态资源打不开或页面空白"></a>静态资源打不开或页面空白</h4><p>放到服务器中启动的vue项目可能会出现一些静态资源找不到或者打开一片空白的情况，需要如下调整：</p>
@@ -974,7 +974,7 @@ http <span class="token punctuation">&#123;</span>
        include /etc/nginx/default.d/*.conf<span class="token punctuation">;</span>
 
         location / <span class="token punctuation">&#123;</span>
-            try_files <span class="token variable">$uri</span> <span class="token variable">$uri</span>/ <span class="token operator">=</span><span class="token number">404</span> /index.html<span class="token punctuation">;</span>
+            try_files <span class="token variable">$uri</span> <span class="token variable">$uri</span>/ /index.html <span class="token operator">=</span><span class="token number">404</span> <span class="token punctuation">;</span>
         <span class="token punctuation">&#125;</span>
        location /api <span class="token punctuation">&#123;</span>
            proxy_pass http://127.0.0.1:8889<span class="token punctuation">;</span>
