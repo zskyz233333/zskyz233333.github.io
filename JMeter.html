@@ -438,7 +438,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <blockquote>
-<p>这篇文章主要介绍JMeter开源性能测试工具的使用。参考自<a target="_blank" rel="noopener" href="https://www.byhy.net/tut/others/loadtest/jmeter/01/">白月黑羽</a></p>
+<p>这篇文章主要介绍JMeter开源性能测试工具的使用。笔记来自<a target="_blank" rel="noopener" href="https://www.byhy.net/tut/others/loadtest/jmeter/01/">白月黑羽</a></p>
 </blockquote>
 <h2 id="JMeter"><a href="#JMeter" class="headerlink" title="JMeter"></a>JMeter</h2><p>JMeter 是一个功能强大的开源性能测试工具，它由一组可定制的测试脚本组成，可以模拟各种负载和场景，例如并发用户、请求频率、数据包大小、延迟等。 不仅可以用于测试 Web 应用程序、网络应用程序、分布式系统和其他软件系统的性能和稳定性，同时还具有可扩展性、可定制性、易于使用和可靠性等优点，因此被广泛应用于自动化测试、性能测试和压力测试等领域。</p>
 <h3 id="JMeter-由三个主要组件组成："><a href="#JMeter-由三个主要组件组成：" class="headerlink" title="JMeter 由三个主要组件组成："></a>JMeter 由三个主要组件组成：</h3><ol>
@@ -590,6 +590,22 @@ Body size <span class="token keyword">in</span> bytes ：   响应消息体大�
 <h3 id="模拟间隔时间"><a href="#模拟间隔时间" class="headerlink" title="模拟间隔时间"></a>模拟间隔时间</h3><p>可以使用 JMeter的 定时器 Timer也可以使用 取样器 里面的 测试活动 flow control action 取样器</p>
 <p><img src="img/JMeter/%E6%B5%8B%E8%AF%95%E6%B4%BB%E5%8A%A8.png"></p>
 <p><code>注意</code>定时器Timer可能会使同级目录下所有请求都等待间隔。</p>
+<h3 id="命令行模式执行"><a href="#命令行模式执行" class="headerlink" title="命令行模式执行"></a>命令行模式执行</h3><p>在进行性能压测的时候GUI模式比较占用资源一般都是通过命令行模式执行的。</p>
+<p><code>注意</code>需要先把test plan保存jmx文件</p>
+<p><img src="img/JMeter/%E5%B9%B6%E5%8F%91.png"></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">d:<span class="token punctuation">\</span>ProgramFiles<span class="token punctuation">\</span>JMeter<span class="token punctuation">\</span>apache-jmeter-5.5<span class="token punctuation">\</span>bin<span class="token punctuation">\</span>jmeter -n -t d:<span class="token punctuation">\</span>Projects<span class="token punctuation">\</span>JmeterTest<span class="token punctuation">\</span>TestPlan.jmx  -l log.jtl<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>log.jtl会生成在cmd当前路径（生成文件后将后缀改为csv可以用excel打开）</p>
+<p><img src="img/JMeter/%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%89%A7%E8%A1%8C.png"></p>
+<p><img src="img/JMeter/%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8.png"></p>
+<h3 id="dashboard-产生图表"><a href="#dashboard-产生图表" class="headerlink" title="dashboard 产生图表"></a>dashboard 产生图表</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">d:<span class="token punctuation">\</span>ProgramFiles<span class="token punctuation">\</span>JMeter<span class="token punctuation">\</span>apache-jmeter-5.5<span class="token punctuation">\</span>bin<span class="token punctuation">\</span>jmeter -g log.jtl -o report1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>就会产生report1目录，里面的index.html 打开就是报告</p>
+<p>注意 -o 后面的目录 一定要不存在，或者内容为空，否则会报错或覆盖旧数据。</p>
+<p>其中 APDEX (Application Performance Index) 里面的 T (Toleration threshold) 和 F (Frustration threshold) 可以通过 JMeter 工具 bin 目录下面的 user.properties 配置文件里面 这两个选项来设置</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">jmeter.reportgenerator.apdex_satisfied_threshold
+jmeter.reportgenerator.apdex_tolerated_threshold<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="img/JMeter/%E5%9B%BE%E8%A1%A8%E5%91%BD%E4%BB%A4.jpg"></p>
+<p><img src="img/JMeter/%E5%9B%BE%E8%A1%A8.jpg"></p>
 
                 
             </div>
