@@ -575,6 +575,7 @@ Body size <span class="token keyword">in</span> bytes ：   响应消息体大�
 <li>在HTTP(S) Test Script Recorder中，点击“启动”按钮。在JMeter的bin目录下会生成名为ApacheJMeterTemporaryRootCA.crt的证书文件</li>
 </ol>
 <p><img src="img/JMeter/%E7%94%9F%E6%88%90%E8%AF%81%E4%B9%A6.png"></p>
+<p><img src="img/JMeter/%E8%AF%81%E4%B9%A6%E6%9C%89%E6%95%88%E6%9C%9F.png"></p>
 <ol start="2">
 <li>JMeter打开Options—》SSL Manager 导入安全证书</li>
 </ol>
@@ -606,6 +607,28 @@ jmeter.reportgenerator.apdex_tolerated_threshold<span aria-hidden="true" class="
 
 <p><img src="img/JMeter/%E5%9B%BE%E8%A1%A8%E5%91%BD%E4%BB%A4.jpg"></p>
 <p><img src="img/JMeter/%E5%9B%BE%E8%A1%A8.jpg"></p>
+<h3 id="Cookie管理器"><a href="#Cookie管理器" class="headerlink" title="Cookie管理器"></a>Cookie管理器</h3><p>当在 JMeter 中测试 Web 应用程序时，Cookie 管理器可以帮助您存储和传递 Cookie 数据，以便在多个请求之间共享。让JMeter自动把接收到的 HTTP 响应消息中的 Cookie 保存起来，并且在后续发给该网站的请求中自动携带上， 可以在测试计划节点下面添加一个 HTTP Cookie管理器</p>
+<p><img src="img/JMeter/Cookie%E7%AE%A1%E7%90%86%E5%99%A8.jpg"></p>
+<h3 id="消息数据关联"><a href="#消息数据关联" class="headerlink" title="消息数据关联"></a>消息数据关联</h3><p>做API接口性能测试的时候，后面的请求参数往往需要根据前面的请求结果来决定。这样，测试工具填入的数据就是动态的，没法预先写死。JMeter 通过 后置处理器 取出 取样器响应结果中 要提出取出来的数据， 存入变量，后续请求使用这些变量。这样，当第一个测试元素的输出数据发生变化时，第二个测试元素可以检测到这种变化，并自动更新其输出数据。</p>
+<p><code>后置处理器</code></p>
+<p>后置处理器通常用于对 取样器 结果进行后续处理。后置处理器的有效范围是同级所有取样器，如果只要针对某个取样器，应该添加在它下面常用的一个后置处理器是 JSON提取器 ， 可以把 HTTP响应消息中的数据提取到变量中，供后续使用</p>
+<p>说明文档：<a target="_blank" rel="noopener" href="https://jmeter.apache.org/usermanual/component_reference.html#JSON_Extractor">https://jmeter.apache.org/usermanual/component_reference.html#JSON_Extractor</a></p>
+<p>测试网页： <a target="_blank" rel="noopener" href="http://www.e123456.com/aaaphp/online/jsonpath/">http://www.e123456.com/aaaphp/online/jsonpath/</a></p>
+<p>HTTP响应中有UTF8编码的中文显示为乱码，可以在设置一个 BeanShell PostProcessor 类型的后置处理器，并且在 Script 中增加 prev.setDataEncoding(“UTF-8”);</p>
+<p><img src="img/JMeter/JSON%E6%8F%90%E5%8F%96%E5%99%A8.jpg"></p>
+<p><img src="img/JMeter/JaywayPath.png"></p>
+<p><img src="img/JMeter/JaywayPath%E7%BB%93%E6%9E%9C.jpg"></p>
+<p><img src="img/JMeter/%E6%8F%90%E5%8F%96%E5%99%A8%E5%9B%BE%E7%89%87.png"></p>
+<p>JSON提取器说明：</p>
+<p><strong>Apply to：</strong> 应用范围</p>
+<p><strong>Names of created variables ：</strong> 接收值的变量名，自定义，多个变量用分号分隔</p>
+<p><strong>JSON Path expression：</strong> json path表达式，也是用分号分隔</p>
+<p><strong>Match No.(0 for Random)：</strong><br>0表示随机；<br>n取第几个匹配值；<br>-1匹配所有。<br>若只要获取到匹配的第一个值，则填写1</p>
+<p><strong>Default Values：</strong> 缺省值，匹配不到值的时候取该值，可写error。</p>
+<p><code>变量</code></p>
+<p>JMeter中，使用变量，是通过 ${变量名} 这样的格式.变量可以用户自己定义产生，也可以由前置处理器、后置处理器 等 JMeter 元件产生。有的是JMeter内置变量，比如表示当前线程号的变量 __threadNum ，就可以这样使用 ${__threadNum}</p>
+<p><img src="img/JMeter/%E5%8F%98%E9%87%8F.jpg"></p>
+<p><img src="img/JMeter/%E5%8F%98%E9%87%8F%E5%80%BC.png"></p>
 
                 
             </div>

@@ -460,6 +460,8 @@ firewall-cmd --list-ports  <span class="token comment"># 只看端口信息</spa
 开端口命令：firewall-cmd --zone<span class="token operator">=</span>public --add-port<span class="token operator">=</span><span class="token number">80</span>/tcp --permanent
 重启防火墙：systemctl restart firewalld.service
 
+关闭端口： firewall-cmd --zone<span class="token operator">=</span>public --remove-port<span class="token operator">=</span><span class="token number">80</span>/tcp --permanent
+
 添加指定ip端口 firewall-cmd --permanent --add-rich-rule<span class="token operator">=</span><span class="token string">"rule family="</span>ipv4<span class="token string">" source address="</span>******<span class="token string">" port protocol="</span>tcp<span class="token string">" port="</span><span class="token number">6379</span><span class="token string">" accept"</span>
 
 删除指定ip端口 firewall-cmd --permanent --remove-rich-rule<span class="token operator">=</span><span class="token string">"rule family="</span>ipv4<span class="token string">" source address="</span><span class="token number">192.168</span>.142.166<span class="token string">" port protocol="</span>tcp<span class="token string">" port="</span><span class="token number">11300</span><span class="token string">" accept"</span> 
@@ -467,7 +469,7 @@ firewall-cmd --list-ports  <span class="token comment"># 只看端口信息</spa
 命令含义：
 --zone <span class="token comment">#作用域</span>
 --add-port<span class="token operator">=</span><span class="token number">80</span>/tcp  <span class="token comment">#添加端口，格式为：端口/通讯协议</span>
---permanent   <span class="token comment">#永久生效，没有此参数重启后失效</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+--permanent   <span class="token comment">#永久生效，没有此参数重启后失效</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h2 id="jdk"><a href="#jdk" class="headerlink" title="jdk"></a>jdk</h2><p><code>事先确保服务器开启了以下端口</code></p>
 <ul>
