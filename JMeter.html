@@ -610,7 +610,7 @@ jmeter.reportgenerator.apdex_tolerated_threshold<span aria-hidden="true" class="
 <h3 id="Cookie管理器"><a href="#Cookie管理器" class="headerlink" title="Cookie管理器"></a>Cookie管理器</h3><p>当在 JMeter 中测试 Web 应用程序时，Cookie 管理器可以帮助您存储和传递 Cookie 数据，以便在多个请求之间共享。让JMeter自动把接收到的 HTTP 响应消息中的 Cookie 保存起来，并且在后续发给该网站的请求中自动携带上， 可以在测试计划节点下面添加一个 HTTP Cookie管理器</p>
 <p><img src="img/JMeter/Cookie%E7%AE%A1%E7%90%86%E5%99%A8.jpg"></p>
 <h3 id="消息数据关联"><a href="#消息数据关联" class="headerlink" title="消息数据关联"></a>消息数据关联</h3><p>做API接口性能测试的时候，后面的请求参数往往需要根据前面的请求结果来决定。这样，测试工具填入的数据就是动态的，没法预先写死。JMeter 通过 后置处理器 取出 取样器响应结果中 要提出取出来的数据， 存入变量，后续请求使用这些变量。这样，当第一个测试元素的输出数据发生变化时，第二个测试元素可以检测到这种变化，并自动更新其输出数据。</p>
-<p><code>后置处理器</code></p>
+<p><strong><code>后置处理器</code></strong></p>
 <p>后置处理器通常用于对 取样器 结果进行后续处理。后置处理器的有效范围是同级所有取样器，如果只要针对某个取样器，应该添加在它下面常用的一个后置处理器是 JSON提取器 ， 可以把 HTTP响应消息中的数据提取到变量中，供后续使用</p>
 <p>说明文档：<a target="_blank" rel="noopener" href="https://jmeter.apache.org/usermanual/component_reference.html#JSON_Extractor">https://jmeter.apache.org/usermanual/component_reference.html#JSON_Extractor</a></p>
 <p>测试网页： <a target="_blank" rel="noopener" href="http://www.e123456.com/aaaphp/online/jsonpath/">http://www.e123456.com/aaaphp/online/jsonpath/</a></p>
@@ -625,10 +625,31 @@ jmeter.reportgenerator.apdex_tolerated_threshold<span aria-hidden="true" class="
 <p><strong>JSON Path expression：</strong> json path表达式，也是用分号分隔</p>
 <p><strong>Match No.(0 for Random)：</strong><br>0表示随机；<br>n取第几个匹配值；<br>-1匹配所有。<br>若只要获取到匹配的第一个值，则填写1</p>
 <p><strong>Default Values：</strong> 缺省值，匹配不到值的时候取该值，可写error。</p>
-<p><code>变量</code></p>
+<p><strong><code>变量</code></strong></p>
 <p>JMeter中，使用变量，是通过 ${变量名} 这样的格式.变量可以用户自己定义产生，也可以由前置处理器、后置处理器 等 JMeter 元件产生。有的是JMeter内置变量，比如表示当前线程号的变量 __threadNum ，就可以这样使用 ${__threadNum}</p>
 <p><img src="img/JMeter/%E5%8F%98%E9%87%8F.jpg"></p>
 <p><img src="img/JMeter/%E5%8F%98%E9%87%8F%E5%80%BC.png"></p>
+<h3 id="CSV数据文件设置"><a href="#CSV数据文件设置" class="headerlink" title="CSV数据文件设置"></a>CSV数据文件设置</h3><p>有时候，性能测试有大量的数据 需要从 CSV 格式的文件读入使用。</p>
+<p>CSV格式的文件其实就是文本文件（右键新建txt改后缀），里面记录了性能测试数据，比如</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 每一列代表一种数据，每一行代表每个线程执行的那组数据</span>
+username,passowrd
+aaaaaaa,123456
+bbbbbbb,123456
+ccccccc,123456<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在线程组下面添加 CSV data set config（CSV 数据文件设置） 元件CSV 数据文件设置可以为每列设置一个变量名，每行数据依次分配给一个线程。每个线程里面的元件就可以使用这些变量得到对应的数据。</p>
+<p><img src="img/JMeter/CSV.png"></p>
+<p><img src="img/JMeter/CSV%E8%AE%BE%E7%BD%AE.png"></p>
+<p><img src="img/JMeter/CSV%E5%8F%98%E9%87%8F.png"></p>
+<h3 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h3><p>利用JMeter断言，可以判定从被测系统收到的响应消息是否正确。断言的有效范围是同级所有取样器，如果只要针对某个取样器，应该添加在它下面。</p>
+<p><strong>JSON断言</strong></p>
+<p><img src="img/JMeter/JSON%E6%96%AD%E8%A8%80.png"></p>
+<p><img src="img/JMeter/JSON%E6%96%AD%E8%A8%802.png"></p>
+<h3 id="循环控制器"><a href="#循环控制器" class="headerlink" title="循环控制器"></a>循环控制器</h3><p>线程组可以整体循环，但是如果你只想循环线程组其中的一部分操作就需要用到循环控制器。</p>
+<p>循环控制器 内部的元件有时 需要用到 当前循环序号 。JMeter 的当前循环序号放到变量 <strong>jm</strong>&lt;循环控制器名称&gt;__idx 中。比如你的循环控制器名为 LC, 你就可以通过 ${__jm__LC__idx} 访问到当前循环序号。</p>
+<p><img src="img/JMeter/%E5%BE%AA%E7%8E%AF%E6%8E%A7%E5%88%B6%E5%99%A8.jpg"></p>
+<p><img src="img/JMeter/%E5%BE%AA%E7%8E%AF%E8%AE%BE%E7%BD%AE.png"></p>
+<h3 id="预处理-前置处理器"><a href="#预处理-前置处理器" class="headerlink" title="预处理(前置处理器)"></a>预处理(前置处理器)</h3><p>预处理器 在取样器请求 发出前执行一些操作。用的比较多的是：设置一些参数、修改取样器的设置、脚本预处理。有效范围是同级所有取样器，如果只要针对某个取样器，应该添加在它下面。常用的有用户参数、HTML链接解析器、JSR223/BeanShell 等前置处理器</p>
+<p><img src="img/JMeter/%E5%89%8D%E7%BD%AE%E5%A4%84%E7%90%86.jpg"></p>
 
                 
             </div>
